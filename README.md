@@ -8,7 +8,7 @@ CafeLog es una app web para anotar cada café que tomo. En cada registro guardo 
 
 En la pantalla de inicio se ve cuántos cafés llevo en el día. El dashboard muestra barras con las cantidades de café, leche y azúcar, y un mapa de calor que indica en qué días y en qué meses tomo más. Todo se puede filtrar por semana, mes o año.
 
-El diseño de la interfaz grafica y la experiencia de usuario debe estar casi calcada del diseño bento de la imagen @Front CoffeeLog.jpg.
+El diseño de la interfaz grafica y la experiencia de usuario debe estar casi calcada del diseño bento de la imagen `web/public/Front CoffeeLog.jpg`.
 
 ## Stack
 

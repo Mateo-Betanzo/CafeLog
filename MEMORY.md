@@ -19,11 +19,10 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 
 ## Decisiones
 - 2026-10-30: scaffolding hecho (Laravel en `api/`, Next.js JS/App Router sin Tailwind en `web/`). Tests de Laravel pasan.
-- UI: seguir el diseño bento oscuro de `public/Front CoffeeLog.jpg` (tarjetas redondeadas, acento naranja).
+- UI: seguir el diseño bento oscuro de `web/public/Front CoffeeLog.jpg` (tarjetas redondeadas, acento naranja).
 
 ## Errores y soluciones
 <!-- Ej: "Error: 404 en /api/cafes/hoy → estaba declarada después de apiResource. Solución: moverla antes." -->
 
 ## Pendientes / dudas
 - Responder: equivalencias ml (chico/mediano/grande), g por cucharadita, tipos de café.
-- `api/` y `web/` traen sus propios AGENTS.md/CLAUDE.md/README.md; `public/` de la raíz tiene la imagen de diseño (¿moverla a `web/public/`?).
