@@ -4,12 +4,11 @@ Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 lí
 
 ## Estado actual
 - Feature en curso: ninguna
-- Última feature terminada: ninguna
-- Próximo paso: (ver Pendientes/dudas) elegir una feature de "Features pendientes" y presentar el plan
+- Última feature terminada: agregar un café nuevo (POST /api/cafes + formulario /nuevo)
+- Próximo paso: elegir una feature de "Features pendientes" y presentar el plan
 
 ## Features pendientes
 Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una línea).
-- Agregar un café nuevo (formulario web + API, con conversión a ml y gramos)
 - Ver cuántos cafés llevo hoy (pantalla de inicio, usa `/api/cafes/hoy`)
 - Ver el detalle de un café (ruta `[id]`, 404 si no existe)
 - Dashboard con barras de café, leche y azúcar (usa `/api/cafes/resumen`)
@@ -25,4 +24,8 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 <!-- Ej: "Error: 404 en /api/cafes/hoy → estaba declarada después de apiResource. Solución: moverla antes." -->
 
 ## Pendientes / dudas
-- Responder: equivalencias ml (chico/mediano/grande), g por cucharadita, tipos de café.
+
+## Café nuevo (hecho)
+- Sin tamaños: el tipo define ml. espresso 30/0, americano 30/0, cortado 30/30, latte 30/150, capuchino 30/120 (café/leche). Azúcar 4 g por cucharadita (máx. 10).
+- Campos: tipo, cucharaditas, lugar (requerido), nota (opcional). Fecha = created_at.
+- Estilos con Tailwind (pedido del usuario; antes decía CSS propio). Rutas API a mano, sin Sanctum. Conversiones en `Cafe::TIPOS`. Web llama a la API vía `API_URL` (`web/.env.local`, no se commitea).
