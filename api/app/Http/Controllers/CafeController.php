@@ -12,6 +12,23 @@ use Illuminate\Validation\Rule;
 class CafeController extends Controller
 {
     /**
+     * Resume los cafés de hoy: cantidad y totales de ml y gramos.
+     *
+     * @return \Illuminate\Http\JsonResponse Totales del día (200), en cero si no hay cafés.
+     */
+    public function hoy()
+    {
+        $hoy = Cafe::whereDate('created_at', today());
+
+        return response()->json([
+            'total' => $hoy->count(),
+            'cafe_ml' => (int) $hoy->sum('cafe_ml'),
+            'leche_ml' => (int) $hoy->sum('leche_ml'),
+            'azucar_g' => (int) $hoy->sum('azucar_g'),
+        ]);
+    }
+
+    /**
      * Registra un café nuevo y calcula sus ml y gramos según el tipo.
      *
      * @param  Request  $request  Datos: tipo, cucharaditas y nota opcional.

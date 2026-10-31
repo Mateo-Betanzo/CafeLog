@@ -83,6 +83,8 @@ Pruebas manuales de la API con Thunder Client. Se completa a medida que se imple
 | POST | /api/cafes | latte, 2 cucharaditas | 201, café 30 ml / leche 150 ml / azúcar 8 g | |
 | POST | /api/cafes | espresso sin nota | 201, leche 0 ml | |
 | POST | /api/cafes | tipo inexistente o cucharaditas > 10 | 422 | |
+| GET | /api/cafes/hoy | sin cafés cargados | 200, todo en 0 | |
+| GET | /api/cafes/hoy | 2 cafés de hoy y 1 de ayer | 200, total 2 y sumas solo de hoy | |
 
 ## Informe
 
