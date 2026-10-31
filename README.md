@@ -1,10 +1,10 @@
 # CafeLog
 
-App web para registrar cada café que tomo (tipo, cucharaditas de azúcar, lugar y nota) con un dashboard de consumo. TP Integrador de Programación Web Dinámica, EPET Nº 30.
+App web para registrar cada café que tomo (tipo, cucharaditas de azúcar y nota) con un dashboard de consumo. TP Integrador de Programación Web Dinámica, EPET Nº 30.
 
 ## Propuesta
 
-CafeLog es una app web para anotar cada café que tomo. En cada registro guardo el tipo de café, las cucharaditas de azúcar, dónde lo tomé y una nota opcional. El sistema convierte el tipo a mililitros de café y leche, y el azúcar a gramos, de forma automática.
+CafeLog es una app web para anotar cada café que tomo. En cada registro guardo el tipo de café, las cucharaditas de azúcar y una nota opcional. El sistema convierte el tipo a mililitros de café y leche, y el azúcar a gramos, de forma automática.
 
 En la pantalla de inicio se ve cuántos cafés llevo en el día. El dashboard muestra barras con las cantidades de café, leche y azúcar, y un mapa de calor que indica en qué días y en qué meses tomo más. Todo se puede filtrar por semana, mes o año.
 
@@ -80,9 +80,9 @@ Pruebas manuales de la API con Thunder Client. Se completa a medida que se imple
 
 | Método | Ruta | Caso | Esperado | Resultado |
 |--------|------|------|----------|-----------|
-| POST | /api/cafes | latte, 2 cucharaditas, lugar "Casa" | 201, café 30 ml / leche 150 ml / azúcar 8 g | |
+| POST | /api/cafes | latte, 2 cucharaditas | 201, café 30 ml / leche 150 ml / azúcar 8 g | |
 | POST | /api/cafes | espresso sin nota | 201, leche 0 ml | |
-| POST | /api/cafes | tipo inexistente, sin lugar o cucharaditas > 10 | 422 | |
+| POST | /api/cafes | tipo inexistente o cucharaditas > 10 | 422 | |
 
 ## Informe
 

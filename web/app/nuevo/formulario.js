@@ -3,10 +3,16 @@
 import { useActionState } from "react";
 import { crearCafe } from "./actions";
 
+/** Tipos de café disponibles; deben coincidir con los de la API. */
 const TIPOS = ["espresso", "americano", "cortado", "latte", "capuchino"];
 const campo =
   "w-full rounded-xl border border-borde bg-fondo px-3 py-2 text-white";
 
+/**
+ * Formulario de carga de un café (Client Component).
+ *
+ * @returns {JSX.Element}
+ */
 export default function Formulario() {
   const [estado, accion, pendiente] = useActionState(crearCafe, null);
 
@@ -36,10 +42,6 @@ export default function Formulario() {
           required
           className={campo}
         />
-      </label>
-      <label className="flex flex-col gap-1 text-sm text-zinc-400">
-        ¿Dónde lo tomaste?
-        <input name="lugar" required className={campo} />
       </label>
       <label className="flex flex-col gap-1 text-sm text-zinc-400">
         Nota (opcional)

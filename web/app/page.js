@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+/**
+ * Página de inicio: acceso al formulario de carga.
+ *
+ * @returns {JSX.Element}
+ */
 export default function Home() {
   return (
     <main className="mx-auto w-full max-w-5xl p-6">

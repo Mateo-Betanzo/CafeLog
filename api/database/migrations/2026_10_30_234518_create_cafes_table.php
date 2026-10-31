@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedInteger('leche_ml');
             $table->unsignedTinyInteger('cucharaditas');
             $table->unsignedInteger('azucar_g');
-            $table->string('lugar');
             $table->text('nota')->nullable();
             $table->timestamps();
         });

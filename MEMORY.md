@@ -27,5 +27,5 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 
 ## Café nuevo (hecho)
 - Sin tamaños: el tipo define ml. espresso 30/0, americano 30/0, cortado 30/30, latte 30/150, capuchino 30/120 (café/leche). Azúcar 4 g por cucharadita (máx. 10).
-- Campos: tipo, cucharaditas, lugar (requerido), nota (opcional). Fecha = created_at.
+- Campos: tipo, cucharaditas, nota (opcional). Se quitó `lugar` (2026-10-31). Fecha = created_at.
 - Estilos con Tailwind (pedido del usuario; antes decía CSS propio). Rutas API a mano, sin Sanctum. Conversiones en `Cafe::TIPOS`. Web llama a la API vía `API_URL` (`web/.env.local`, no se commitea).

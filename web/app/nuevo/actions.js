@@ -2,6 +2,13 @@
 
 import { redirect } from "next/navigation";
 
+/**
+ * Server Action: envía el café a la API y vuelve al inicio si se guardó.
+ *
+ * @param {{errores: string[]} | null} estado Estado anterior del formulario.
+ * @param {FormData} formData Campos del formulario.
+ * @returns {Promise<{errores: string[]}>} Mensajes de error si la API rechaza los datos.
+ */
 export async function crearCafe(estado, formData) {
   const res = await fetch(`${process.env.API_URL}/api/cafes`, {
     method: "POST",
@@ -9,7 +16,6 @@ export async function crearCafe(estado, formData) {
     body: JSON.stringify({
       tipo: formData.get("tipo"),
       cucharaditas: Number(formData.get("cucharaditas")),
-      lugar: formData.get("lugar"),
       nota: formData.get("nota") || null,
     }),
   });

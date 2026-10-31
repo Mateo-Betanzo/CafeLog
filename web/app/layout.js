@@ -11,11 +11,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+/** Metadatos de la app. */
 export const metadata = {
   title: "CafeLog",
   description: "Registro de cafés",
 };
 
+/**
+ * Layout raíz: fuentes y estructura HTML común.
+ *
+ * @param {{children: React.ReactNode}} props
+ * @returns {JSX.Element}
+ */
 export default function RootLayout({ children }) {
   return (
     <html lang="es" className={`${geistSans.variable} ${geistMono.variable}`}>
