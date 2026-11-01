@@ -4,12 +4,11 @@ Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 lí
 
 ## Estado actual
 - Feature en curso: ninguna
-- Última feature terminada: dashboard con barras (GET /api/cafes/resumen + /dashboard), sin commitear
+- Última feature terminada: filtrar por semana, mes o año (`?periodo=` + pestañas en /dashboard), sin commitear
 - Próximo paso: elegir una feature de "Features pendientes" y presentar el plan
 
 ## Features pendientes
 Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una línea).
-- Filtrar por semana, mes o año
 - Mapa de calor de días y meses
 - PWA: manifest, Service Worker, caché network-first y página "sin conexión"
 
@@ -39,5 +38,9 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Limitación: con `<Suspense>` la página de "no encontrado" sale con HTTP 200 (el streaming ya envió el status).
 
 ## Dashboard (hecho)
-- 2026-11-01: `/api/cafes/resumen` devuelve los últimos 10 días (incluido hoy) con totales por día; 3 tarjetas separadas (café, leche, azúcar) con barras en CSS. El filtro semana/mes/año agregará `?periodo=`.
+- 2026-11-01: `/api/cafes/resumen` devuelve los últimos 10 días (incluido hoy) con totales por día; 3 tarjetas separadas (café, leche, azúcar) con barras en CSS.
 - Error: probar con `DB_DATABASE=otra.sqlite php artisan serve` NO cambia la base (serve no reenvía esa variable) y el POST de prueba cayó en la base de desarrollo. Solución: borrar solo esa fila; para probar de verdad, apuntar `DB_DATABASE` en un `.env` aparte o no escribir datos.
+
+## Filtro por periodo (hecho)
+- 2026-11-01: `/api/cafes/resumen?periodo=semana|mes|anio` (por defecto semana). Rangos calendario: lunes a domingo, mes del 1 al último día, año enero a diciembre (barra por mes, `Y-m`). Días futuros en cero. La lista se llama `barras`; se eliminó la vista de 10 días.
+- Pestañas en `web/app/dashboard/filtros.js` (Client Component, `?periodo=` en la URL).
