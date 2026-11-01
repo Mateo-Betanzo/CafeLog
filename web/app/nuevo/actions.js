@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { apiFetch } from "../lib/api";
 
 /**
  * Server Action: envía el café a la API y vuelve al inicio si se guardó.
@@ -12,9 +13,9 @@ import { redirect } from "next/navigation";
 export async function crearCafe(estado, formData) {
   let res;
   try {
-    res = await fetch(`${process.env.API_URL}/api/cafes`, {
+    res = await apiFetch("/cafes", {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         tipo: formData.get("tipo"),
         cucharaditas: Number(formData.get("cucharaditas")),

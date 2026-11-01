@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cafe;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -20,55 +18,20 @@ class CafeController extends Controller
      */
     public function hoy()
     {
-        $hoy = Cafe::whereDate('created_at', today());
-
-        return response()->json([
-            'total' => $hoy->count(),
-            'cafe_ml' => (int) $hoy->sum('cafe_ml'),
-            'leche_ml' => (int) $hoy->sum('leche_ml'),
-            'azucar_g' => (int) $hoy->sum('azucar_g'),
-        ]);
+        return response()->json(Cafe::deHoy());
     }
 
     /**
-     * Totales de café, leche y azúcar por barra, según el periodo calendario actual.
+     * Totales por barra según el periodo calendario actual (ver `Cafe::porPeriodo`).
      *
-     * - `semana` (por defecto): de lunes a domingo, una barra por día.
-     * - `mes`: del 1 al último día del mes, una barra por día.
-     * - `anio`: de enero a diciembre, una barra por mes (fecha `Y-m`).
-     *
-     * Las barras sin cafés (incluidos los días futuros) vienen en cero.
-     *
-     * @param  Request  $request  Parámetro opcional `periodo`.
+     * @param  Request  $request  Parámetro opcional `periodo`: semana (por defecto), mes o anio.
      * @return \Illuminate\Http\JsonResponse `{"barras": [{fecha, cafe_ml, leche_ml, azucar_g}]}` (200); 422 si el periodo es inválido.
      */
     public function resumen(Request $request)
     {
         $periodo = $request->validate(['periodo' => 'in:semana,mes,anio'])['periodo'] ?? 'semana';
 
-        [$inicio, $fin, $paso, $formato] = match ($periodo) {
-            'semana' => [today()->startOfWeek(), today()->endOfWeek(), '1 day', 'Y-m-d'],
-            'mes' => [today()->startOfMonth(), today()->endOfMonth(), '1 day', 'Y-m-d'],
-            'anio' => [today()->startOfYear(), today()->endOfYear(), '1 month', 'Y-m'],
-        };
-
-        $porBarra = Cafe::whereBetween('created_at', [$inicio, $fin])
-            ->get()
-            ->groupBy(fn (Cafe $cafe) => $cafe->created_at->format($formato));
-
-        $barras = collect(CarbonPeriod::create($inicio, $paso, $fin))->map(function (Carbon $dia) use ($porBarra, $formato) {
-            $fecha = $dia->format($formato);
-            $cafes = $porBarra->get($fecha, collect());
-
-            return [
-                'fecha' => $fecha,
-                'cafe_ml' => (int) $cafes->sum('cafe_ml'),
-                'leche_ml' => (int) $cafes->sum('leche_ml'),
-                'azucar_g' => (int) $cafes->sum('azucar_g'),
-            ];
-        });
-
-        return response()->json(['barras' => $barras]);
+        return response()->json(['barras' => Cafe::porPeriodo($periodo)]);
     }
 
     /**
@@ -76,7 +39,7 @@ class CafeController extends Controller
      *
      * @param  int  $id  Id del café.
      * @return \Illuminate\Http\JsonResponse El café (200); 404 si no existe.
-    */
+     */
     public function show(int $id)
     {
         return response()->json(Cafe::findOrFail($id));
