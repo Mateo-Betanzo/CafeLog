@@ -85,6 +85,9 @@ Pruebas manuales de la API con Thunder Client. Se completa a medida que se imple
 | POST | /api/cafes | tipo inexistente o cucharaditas > 10 | 422 | |
 | GET | /api/cafes/1 | café existente | 200, con tipo, ml, gramos, nota y fecha | |
 | GET | /api/cafes/999 | id inexistente | 404 | |
+| GET | /api/cafes/resumen | sin cafés | 200, 10 días en 0 (del más viejo al de hoy) | |
+| GET | /api/cafes/resumen | cafés de hoy y de hace 3 días | 200, cada día con su suma | |
+| GET | /api/cafes/resumen | café de hace 10 días | 200, no aparece | |
 | GET | /api/cafes/hoy | sin cafés cargados | 200, todo en 0 | |
 | GET | /api/cafes/hoy | 2 cafés de hoy y 1 de ayer | 200, total 2 y sumas solo de hoy | |
 

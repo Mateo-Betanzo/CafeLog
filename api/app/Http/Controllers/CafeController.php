@@ -29,6 +29,33 @@ class CafeController extends Controller
     }
 
     /**
+     * Totales por día de los últimos 10 días (incluido hoy), del más viejo al más nuevo.
+     *
+     * @return \Illuminate\Http\JsonResponse `{"dias": [{fecha, cafe_ml, leche_ml, azucar_g}]}` (200);
+     *                                        los días sin cafés vienen en cero.
+     */
+    public function resumen()
+    {
+        $porDia = Cafe::where('created_at', '>=', today()->subDays(9))
+            ->get()
+            ->groupBy(fn (Cafe $cafe) => $cafe->created_at->toDateString());
+
+        $dias = collect(range(9, 0))->map(function (int $atras) use ($porDia) {
+            $fecha = today()->subDays($atras)->toDateString();
+            $cafes = $porDia->get($fecha, collect());
+
+            return [
+                'fecha' => $fecha,
+                'cafe_ml' => (int) $cafes->sum('cafe_ml'),
+                'leche_ml' => (int) $cafes->sum('leche_ml'),
+                'azucar_g' => (int) $cafes->sum('azucar_g'),
+            ];
+        });
+
+        return response()->json(['dias' => $dias]);
+    }
+
+    /**
      * Devuelve el detalle de un café.
      *
      * @param  int  $id  Id del café.

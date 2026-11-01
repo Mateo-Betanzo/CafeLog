@@ -76,12 +76,20 @@ export default function Home() {
         <ResumenHoy />
       </Suspense>
 
-      <Link
-        href="/nuevo"
-        className="mt-6 inline-block rounded-2xl bg-acento px-5 py-3 font-medium text-black"
-      >
-        Agregar café
-      </Link>
+      <div className="mt-6 flex gap-3">
+        <Link
+          href="/nuevo"
+          className="rounded-2xl bg-acento px-5 py-3 font-medium text-black"
+        >
+          Agregar café
+        </Link>
+        <Link
+          href="/dashboard"
+          className="rounded-2xl border border-borde bg-tarjeta px-5 py-3 font-medium"
+        >
+          Dashboard
+        </Link>
+      </div>
     </main>
   );
 }
