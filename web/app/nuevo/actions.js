@@ -10,15 +10,20 @@ import { redirect } from "next/navigation";
  * @returns {Promise<{errores: string[]}>} Mensajes de error si la API rechaza los datos.
  */
 export async function crearCafe(estado, formData) {
-  const res = await fetch(`${process.env.API_URL}/api/cafes`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({
-      tipo: formData.get("tipo"),
-      cucharaditas: Number(formData.get("cucharaditas")),
-      nota: formData.get("nota") || null,
-    }),
-  });
+  let res;
+  try {
+    res = await fetch(`${process.env.API_URL}/api/cafes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        tipo: formData.get("tipo"),
+        cucharaditas: Number(formData.get("cucharaditas")),
+        nota: formData.get("nota") || null,
+      }),
+    });
+  } catch {
+    return { errores: ["No se pudo conectar con la API"] };
+  }
 
   if (res.status === 422) {
     const { errors } = await res.json();

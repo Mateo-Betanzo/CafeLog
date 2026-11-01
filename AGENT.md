@@ -12,7 +12,7 @@ Antes de hacer cualquier cosa, leer `README.md` (stack y reglas del proyecto) y 
 6. **Implementar con TDD**: test que falla → código mínimo para que pase → refactor si hace falta.
 7. **Verificar:** correr toda la suite de tests. Tiene que pasar completa.
 8. **Actualizar `MEMORY.md`:** borrar la feature de "Features pendientes", limpiar "Feature en curso", anotar decisiones y errores con su solución. Si la feature agregó o cambió un endpoint, agregar una fila a la tabla de pruebas del `README.md`.
-9. **Commitear** código y archivos `.md` actualizados en un solo commit (ver abajo).
+9. **Commitear** solo cuando el usuario lo acepte (ver abajo). Hasta entonces los cambios quedan sin commitear para que el usuario los revise.
 
 ## Principios de código
 
@@ -29,6 +29,7 @@ Antes de hacer cualquier cosa, leer `README.md` (stack y reglas del proyecto) y 
 
 ## Commits
 
+- **No commitear hasta que el usuario lo acepte** (pedido del 2026-11-01).
 - Un commit por feature terminada, con todos los tests pasando y `MEMORY.md` ya actualizado.
 - Mensaje corto, en español, indicando la feature. Ej: `feat: agregar un café nuevo desde la web`.
 - No commitear `.env`, `vendor/` ni `node_modules/`.
