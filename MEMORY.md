@@ -4,12 +4,11 @@ Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 lí
 
 ## Estado actual
 - Feature en curso: ninguna
-- Última feature terminada: ver cuántos cafés llevo hoy (GET /api/cafes/hoy + tarjeta en /)
+- Última feature terminada: ver el detalle de un café (GET /api/cafes/{id} + /cafes/[id]), sin commitear
 - Próximo paso: elegir una feature de "Features pendientes" y presentar el plan
 
 ## Features pendientes
 Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una línea).
-- Ver el detalle de un café (ruta `[id]`, 404 si no existe)
 - Dashboard con barras de café, leche y azúcar (usa `/api/cafes/resumen`)
 - Filtrar por semana, mes o año
 - Mapa de calor de días y meses
@@ -35,3 +34,7 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 
 ## Errores y soluciones (café de hoy)
 - Error: build de Next "uncached or runtime data during prerendering" en `/` (`cacheComponents: true` viene activo). Solución: el `fetch` va en un componente async dentro de `<Suspense>`.
+
+## Detalle de un café (hecho)
+- 2026-11-01: no hay link al detalle (se llega por URL) hasta que exista la lista; fecha en hora de Buenos Aires.
+- Limitación: con `<Suspense>` la página de "no encontrado" sale con HTTP 200 (el streaming ya envió el status).

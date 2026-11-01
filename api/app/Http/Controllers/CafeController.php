@@ -29,6 +29,17 @@ class CafeController extends Controller
     }
 
     /**
+     * Devuelve el detalle de un café.
+     *
+     * @param  int  $id  Id del café.
+     * @return \Illuminate\Http\JsonResponse El café (200); 404 si no existe.
+    */
+    public function show(int $id)
+    {
+        return response()->json(Cafe::findOrFail($id));
+    }
+
+    /**
      * Registra un café nuevo y calcula sus ml y gramos según el tipo.
      *
      * @param  Request  $request  Datos: tipo, cucharaditas y nota opcional.
