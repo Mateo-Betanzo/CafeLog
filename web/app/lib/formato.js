@@ -5,4 +5,3 @@
  * @returns {string}
  */
 export const cafes = (cantidad) => (cantidad === 1 ? "café" : "cafés");
-grid

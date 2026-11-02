@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Icono from "./icono";
 
-/**
- * Botones de la barra. `icono` es provisorio (una letra): reemplazarlo por el
- * ícono definitivo, por ejemplo un `<svg>`, sin tocar nada más.
- */
+/** Botones de la barra. `icono` es el nombre del archivo en `public/svg/` (sin `.svg`). */
 const ENLACES = [
-  { href: "/", nombre: "Inicio", icono: "I" },
-  { href: "/cafes", nombre: "Mis cafés", icono: "C" },
-  { href: "/dashboard", nombre: "Dashboard", icono: "D" },
-  { href: "/nuevo", nombre: "Nuevo café", icono: "+" },
+  { href: "/", nombre: "Inicio", icono: "home-simple" },
+  { href: "/cafes", nombre: "Mis cafés", icono: "coffee-cup" },
+  { href: "/dashboard", nombre: "Dashboard", icono: "view-grid" },
+  { href: "/nuevo", nombre: "Nuevo café", icono: "plus" },
 ];
 
 /**
@@ -39,11 +37,11 @@ export default function Navegacion() {
                 title={nombre}
                 aria-label={nombre}
                 aria-current={activo ? "page" : undefined}
-                className={`grid h-10 w-10 place-items-center rounded-full text-lg ${
+                className={`grid h-10 w-10 place-items-center rounded-full ${
                   activo ? "text-white" : "text-zinc-600 hover:text-zinc-300"
                 }`}
               >
-                {icono}
+                <Icono nombre={icono} />
               </Link>
             </li>
           );
