@@ -1,4 +1,4 @@
-import Volver from "../../componentes/volver";
+import Encabezado from "../../componentes/encabezado";
 
 /**
  * Se muestra cuando el café pedido no existe.
@@ -8,8 +8,7 @@ import Volver from "../../componentes/volver";
 export default function NotFound() {
   return (
     <main className="mx-auto w-full max-w-md p-6">
-      <h1 className="text-2xl font-semibold">Café no encontrado</h1>
-      <Volver className="mt-4" />
+      <Encabezado titulo="Café no encontrado" />
     </main>
   );
 }

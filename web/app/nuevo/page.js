@@ -1,5 +1,5 @@
 import Formulario from "./formulario";
-import Volver from "../componentes/volver";
+import Encabezado from "../componentes/encabezado";
 
 /**
  * Página `/nuevo`: muestra el formulario para agregar un café.
@@ -9,8 +9,7 @@ import Volver from "../componentes/volver";
 export default function Nuevo() {
   return (
     <main className="mx-auto w-full max-w-md p-6">
-      <Volver />
-      <h1 className="mb-6 mt-2 text-2xl font-semibold">Nuevo café</h1>
+      <Encabezado titulo="Nuevo café" />
       <Formulario />
     </main>
   );

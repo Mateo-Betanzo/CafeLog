@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import Volver from "../componentes/volver";
+import Encabezado from "../componentes/encabezado";
 import { apiGet } from "../lib/api";
 import ListaInfinita from "./lista-infinita";
 
@@ -38,8 +38,7 @@ async function Lista() {
 export default function Cafes() {
   return (
     <main className="mx-auto w-full max-w-2xl p-6">
-      <Volver />
-      <h1 className="mb-6 mt-2 text-2xl font-semibold">Mis cafés</h1>
+      <Encabezado titulo="Mis cafés" />
       <Suspense fallback={<p className="text-zinc-400">Cargando…</p>}>
         <Lista />
       </Suspense>
