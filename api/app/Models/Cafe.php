@@ -96,4 +96,22 @@ class Cafe extends Model
                 + static::totales($porBarra->get($dia->format($formato), collect()))
         );
     }
+
+    /**
+     * Cantidad de cafés del año actual por día de la semana y mes.
+     *
+     * @return array<int, array<int, int>> 7 filas (lunes a domingo) de 12 columnas (enero a diciembre).
+     */
+    public static function calor(): array
+    {
+        $filas = array_fill(0, 7, array_fill(0, 12, 0));
+
+        $cafes = static::whereBetween('created_at', [today()->startOfYear(), today()->endOfYear()])->get();
+
+        foreach ($cafes as $cafe) {
+            $filas[$cafe->created_at->dayOfWeekIso - 1][$cafe->created_at->month - 1]++;
+        }
+
+        return $filas;
+    }
 }

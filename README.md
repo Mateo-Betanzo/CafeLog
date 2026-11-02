@@ -88,6 +88,8 @@ Pruebas manuales de la API con Thunder Client. Se completa a medida que se imple
 | GET | /api/cafes/resumen?periodo=mes | mes actual | 200, una barra por día del mes | |
 | GET | /api/cafes/resumen?periodo=anio | año actual | 200, 12 barras (`YYYY-MM`) | |
 | GET | /api/cafes/resumen?periodo=siglo | periodo inválido | 422 | |
+| GET | /api/cafes/calor | sin cafés | 200, `filas` de 7 × 12 en 0 | |
+| GET | /api/cafes/calor | café de un miércoles de noviembre | 200, `filas[2][10]` suma 1 | |
 | GET | /api/cafes/hoy | sin cafés cargados | 200, todo en 0 | |
 | GET | /api/cafes/hoy | 2 cafés de hoy y 1 de ayer | 200, total 2 y sumas solo de hoy | |
 

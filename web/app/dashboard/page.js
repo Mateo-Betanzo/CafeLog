@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import Filtros from "./filtros";
+import Calor from "./calor";
 import Graficos from "./graficos";
 
 /**
@@ -23,6 +24,9 @@ export default function Dashboard({ searchParams }) {
       </div>
       <Suspense fallback={<p className="text-zinc-400">Cargando…</p>}>
         <Graficos searchParams={searchParams} />
+      </Suspense>
+      <Suspense>
+        <Calor />
       </Suspense>
     </main>
   );

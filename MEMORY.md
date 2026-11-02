@@ -4,12 +4,11 @@ Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 lí
 
 ## Estado actual
 - Feature en curso: ninguna
-- Última terminada: refactor que modulariza API y web (sin commitear). Antes: filtro semana/mes/año (`2edaa6c`)
+- Última terminada: mapa de calor días de la semana × meses (`/api/cafes/calor` + `dashboard/calor.js`), sin commitear. Antes: refactor (`47f6a68`)
 - Próximo paso: elegir una feature de "Features pendientes" y presentar el plan
 
 ## Features pendientes
 Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una línea).
-- Mapa de calor de días y meses
 - PWA: manifest, Service Worker, caché network-first y página "sin conexión"
 - (idea) Lista de cafés con link al detalle; hoy `/cafes/[id]` solo se abre por URL
 
@@ -19,6 +18,7 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Café sin tamaños: el tipo define los ml (`Cafe::TIPOS`: espresso 30/0, americano 30/0, cortado 30/30, latte 30/150, capuchino 30/120). Azúcar 4 g por cucharadita (máx. 10). Campos: tipo, cucharaditas, nota opcional (se quitó `lugar`).
 - Zona horaria de la API: America/Argentina/Buenos_Aires (`config/app.php`).
 - `/api/cafes/resumen?periodo=semana|mes|anio` (defecto semana, calendario, días futuros en 0). Devuelve `barras`; el año va por mes (`Y-m`).
+- Mapa de calor 2026-11-01: filas = lunes a domingo, columnas = ene a dic, celda = cantidad de cafés del año actual (fijo, no depende de las pestañas). `GET /api/cafes/calor` → `{anio, filas}` (`Cafe::calor`). Hecho en CSS, sin librerías de gráficos (decisión del usuario).
 - Refactor 2026-11-01: la lógica de datos vive en el modelo (`Cafe::totales/deHoy/porPeriodo`); el controlador solo valida y responde.
 - Web: acceso a la API en `web/app/lib/api.js` (`apiFetch`, `apiGet`, sin caché). Dashboard dividido en `page.js`, `graficos.js`, `grafico.js`, `filtros.js`; inicio en `page.js` + `resumen-hoy.js`. `cafes/[id]/page.js` todavía usa su propio `fetch`.
 - La web usa `API_URL` (`web/.env.local`, no se commitea).
