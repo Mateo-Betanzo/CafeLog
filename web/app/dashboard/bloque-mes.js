@@ -1,3 +1,4 @@
+import { fechaLarga } from "../lib/fechas";
 import { cafes } from "../lib/formato";
 
 const MESES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
@@ -22,21 +23,6 @@ export const nivel = (total, maximo) => (total === 0 ? 0 : Math.ceil((total / ma
  */
 export const colorNivel = (n) =>
   `color-mix(in srgb, var(--color-acento) ${NIVELES[n]}%, var(--color-borde))`;
-
-/**
- * Fecha completa en español, por ejemplo "lunes, 3 de noviembre de 2025".
- *
- * @param {string} fecha `YYYY-MM-DD`.
- * @returns {string}
- */
-const fechaLarga = (fecha) =>
-  new Date(fecha).toLocaleDateString("es-AR", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
 
 /**
  * Bloque de un mes del mapa de calor: 7 filas (lunes a domingo), una celda por

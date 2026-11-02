@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Tarjeta from "../componentes/tarjeta";
-import { hora } from "../lib/formato";
+import { hora } from "../lib/fechas";
 
 /**
  * Fila de la lista de cafés: tipo, hora y cantidades, con link al detalle.

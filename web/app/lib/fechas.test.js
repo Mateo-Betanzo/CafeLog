@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { agruparPorDia, dia, hora, tituloDia } from "./formato.js";
+import { agruparPorDia, dia, fechaCorta, fechaLarga, hora, tituloDia } from "./fechas.js";
 
 // 2026-11-02 es lunes. Buenos Aires está 3 horas detrás de UTC.
 const ahora = new Date("2026-11-02T18:00:00Z");
@@ -13,6 +13,18 @@ test("hora: 24 horas en horario de Buenos Aires", () => {
 test("dia: un café de las 23:30 no pasa al día siguiente", () => {
   assert.equal(dia("2026-11-03T02:30:00Z"), "2026-11-02");
   assert.equal(dia("2026-11-03T03:00:00Z"), "2026-11-03");
+});
+
+test("dia: acepta un Date además de un string ISO", () => {
+  assert.equal(dia(new Date("2026-11-03T02:30:00Z")), "2026-11-02");
+});
+
+test("fechaCorta: día y hora de 24 horas en horario de Buenos Aires", () => {
+  assert.equal(fechaCorta("2026-11-02T17:56:00Z"), "2/11/26, 14:56");
+});
+
+test("fechaLarga: día completo a partir de YYYY-MM-DD", () => {
+  assert.equal(fechaLarga("2026-11-01"), "domingo, 1 de noviembre de 2026");
 });
 
 test("tituloDia: Hoy, Ayer y el resto", () => {

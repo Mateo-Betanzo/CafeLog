@@ -1,6 +1,6 @@
 "use client";
 
-import { agruparPorDia, tituloDia } from "../lib/formato";
+import { agruparPorDia, tituloDia } from "../lib/fechas";
 import { useScrollInfinito } from "../lib/use-scroll-infinito";
 import { cargarMas } from "./actions";
 import FilaCafe from "./fila-cafe";

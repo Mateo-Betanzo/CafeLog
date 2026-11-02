@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Tarjeta from "../../componentes/tarjeta";
 import Volver from "../../componentes/volver";
-import { fechaCorta } from "../../lib/formato";
+import { fechaCorta } from "../../lib/fechas";
 
 /**
  * Pide a la API el detalle de un café.
