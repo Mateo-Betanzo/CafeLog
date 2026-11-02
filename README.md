@@ -42,6 +42,7 @@ El diseño de la interfaz grafica y la experiencia de usuario debe estar casi ca
 
 - `api/` proyecto Laravel
 - `web/` proyecto Next.js
+- `web/app/componentes/` piezas de interfaz compartidas (`Tarjeta`, `Volver`, `Navegacion`)
 - `README.md` tema, cómo correrlo, tabla de pruebas e informe
 - `AGENT.md` reglas de trabajo para el agente
 - `MEMORY.md` estado del trabajo y features pendientes (máx. ~50 líneas)

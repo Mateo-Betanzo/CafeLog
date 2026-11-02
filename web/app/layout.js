@@ -1,5 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
+import Navegacion from "./componentes/navegacion";
 import RegistrarSW from "./registrar-sw";
 
 const geistSans = Geist({
@@ -31,8 +33,11 @@ export const viewport = { themeColor: "#d9772b" };
 export default function RootLayout({ children }) {
   return (
     <html lang="es" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>
+      <body className="pb-24 md:pb-0">
         {children}
+        <Suspense>
+          <Navegacion />
+        </Suspense>
         <RegistrarSW />
       </body>
     </html>
