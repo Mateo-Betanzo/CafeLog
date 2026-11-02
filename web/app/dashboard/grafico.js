@@ -1,3 +1,4 @@
+import Tarjeta from "../componentes/tarjeta";
 /**
  * Etiqueta que va debajo de una barra: inicial del día (semana), número del
  * día cada 5 barras (mes) o inicial del mes (año).
@@ -27,7 +28,7 @@ export default function Grafico({ titulo, unidad, campo, barras, periodo }) {
   const maximo = Math.max(...barras.map((b) => b[campo]), 1);
 
   return (
-    <section className="rounded-2xl border border-borde bg-tarjeta p-6">
+    <Tarjeta>
       <h2 className="text-sm text-zinc-400">{titulo}</h2>
       <p className="mt-2 text-5xl font-light">
         {total}
@@ -50,6 +51,6 @@ export default function Grafico({ titulo, unidad, campo, barras, periodo }) {
           </div>
         ))}
       </div>
-    </section>
+    </Tarjeta>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { crearCafe } from "./actions";
+import Tarjeta from "../componentes/tarjeta";
 
 /** Tipos de café disponibles; deben coincidir con los de la API. */
 const TIPOS = ["espresso", "americano", "cortado", "latte", "capuchino"];
@@ -17,10 +18,7 @@ export default function Formulario() {
   const [estado, accion, pendiente] = useActionState(crearCafe, null);
 
   return (
-    <form
-      action={accion}
-      className="flex flex-col gap-4 rounded-2xl border border-borde bg-tarjeta p-6"
-    >
+    <Tarjeta as="form" action={accion} className="flex flex-col gap-4">
       <label className="flex flex-col gap-1 text-sm text-zinc-400">
         Tipo
         <select name="tipo" required className={campo}>
@@ -60,6 +58,6 @@ export default function Formulario() {
       >
         Guardar
       </button>
-    </form>
+    </Tarjeta>
   );
 }

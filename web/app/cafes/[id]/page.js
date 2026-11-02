@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import Tarjeta from "../../componentes/tarjeta";
+import Volver from "../../componentes/volver";
 
 /**
  * Pide a la API el detalle de un café.
@@ -44,7 +45,7 @@ async function Detalle({ params }) {
   });
 
   return (
-    <section className="rounded-2xl border border-borde bg-tarjeta p-6">
+    <Tarjeta>
       <h1 className="text-3xl font-semibold capitalize">{cafe.tipo}</h1>
       <p className="mt-1 text-sm text-zinc-400">{fecha}</p>
       <dl className="mt-6 grid grid-cols-3 gap-4 text-sm">
@@ -71,7 +72,7 @@ async function Detalle({ params }) {
           {cafe.nota}
         </p>
       )}
-    </section>
+    </Tarjeta>
   );
 }
 
@@ -84,9 +85,7 @@ async function Detalle({ params }) {
 export default function Page({ params }) {
   return (
     <main className="mx-auto w-full max-w-md p-6">
-      <Link href="/" className="mb-4 inline-block text-sm text-zinc-400">
-        ← Volver
-      </Link>
+      <Volver className="mb-4" />
       <Suspense fallback={<p className="text-zinc-400">Cargando…</p>}>
         <Detalle params={params} />
       </Suspense>

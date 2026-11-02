@@ -1,4 +1,6 @@
 import { apiGet } from "./lib/api";
+import Tarjeta from "./componentes/tarjeta";
+import { cafes } from "./lib/formato";
 
 /**
  * Tarjeta con los cafés de hoy (Server Component).
@@ -9,14 +11,14 @@ export default async function ResumenHoy() {
   const hoy = await apiGet("/cafes/hoy");
 
   return (
-    <section className="mt-6 rounded-2xl border border-borde bg-tarjeta p-6">
+    <Tarjeta className="mt-6">
       <h2 className="text-sm text-zinc-400">Hoy</h2>
       {hoy ? (
         <>
           <p className="mt-2 text-7xl font-light">
             {hoy.total}
             <span className="ml-2 text-base text-zinc-400">
-              {hoy.total === 1 ? "café" : "cafés"}
+              {cafes(hoy.total)}
             </span>
           </p>
           <dl className="mt-6 grid grid-cols-3 gap-4 text-sm">
@@ -37,6 +39,6 @@ export default async function ResumenHoy() {
       ) : (
         <p className="mt-2 text-red-400">No se pudo cargar el resumen</p>
       )}
-    </section>
+    </Tarjeta>
   );
 }

@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { Suspense } from "react";
 import Filtros from "./filtros";
 import Calor from "./calor";
 import Graficos from "./graficos";
+import Volver from "../componentes/volver";
 
 /**
  * Página `/dashboard`: consumo de la semana, el mes o el año actual.
@@ -13,9 +13,7 @@ import Graficos from "./graficos";
 export default function Dashboard({ searchParams }) {
   return (
     <main className="mx-auto w-full max-w-5xl p-6">
-      <Link href="/" className="text-sm text-zinc-400">
-        ← Volver
-      </Link>
+      <Volver />
       <h1 className="mb-4 mt-2 text-2xl font-semibold">Dashboard</h1>
       <div className="mb-6">
         <Suspense>
