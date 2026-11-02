@@ -73,6 +73,14 @@ echo "API_URL=http://localhost:8000" > .env.local
 npm run dev              # http://localhost:3000
 ```
 
+**PWA** (el Service Worker solo se registra en producción)
+```bash
+cd web
+npm run build
+npm start                # http://localhost:3000 → instalable desde el navegador
+```
+Prueba: abrir `/dashboard`, recargar, poner la red en Offline (DevTools) y recargar: se ve la última copia. Una ruta no visitada muestra `/offline.html`.
+
 ## Tabla de pruebas
 
 Pruebas manuales de la API con Thunder Client. Se completa a medida que se implementa cada endpoint.

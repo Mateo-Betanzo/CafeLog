@@ -4,12 +4,11 @@ Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 lí
 
 ## Estado actual
 - Feature en curso: ninguna
-- Última terminada: refactor de calor.js y componentes compartidos (sin commitear). Antes: mapa de calor 365 días (`2a24bba`)
+- Última terminada: PWA (manifest, Service Worker, offline.html), sin commitear. Antes: refactor del mapa de calor (`b9fb9d3`)
 - Próximo paso: elegir una feature de "Features pendientes" y presentar el plan
 
 ## Features pendientes
 Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una línea).
-- PWA: manifest, Service Worker, caché network-first y página "sin conexión"
 - (idea) Lista de cafés con link al detalle; hoy `/cafes/[id]` solo se abre por URL
 
 ## Decisiones
@@ -22,6 +21,7 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Refactor 2026-11-01: la lógica de datos vive en el modelo (`Cafe::totales/deHoy/porPeriodo`); el controlador solo valida y responde.
 - Web: acceso a la API en `web/app/lib/api.js` (`apiFetch`, `apiGet`, sin caché). Dashboard dividido en `page.js`, `graficos.js`, `grafico.js`, `filtros.js`; inicio en `page.js` + `resumen-hoy.js`. `cafes/[id]/page.js` todavía usa su propio `fetch`.
 - Componentes compartidos (2026-11-02): `app/componentes/tarjeta.js` (`Tarjeta`, prop `as`) y `volver.js` (`Volver`); `app/lib/formato.js` (`cafes(n)` → "café"/"cafés"). Mapa de calor dividido en `calor.js` + `bloque-mes.js` (`BloqueMes`, `nivel`, `colorNivel`). Verificado con capturas antes/después: idénticas.
+- PWA (2026-11-02): `web/public/manifest.json`, `sw.js` (network-first para todo GET del mismo origen, POST directo a la red, caché `cafelog-v1`), `offline.html` e íconos generados con Python en `public/icons/` (provisorios; el usuario los cambiará). El navegador no llama a la API (lo hace el servidor de Next), así que se cachean las páginas que ya traen los datos. Se registra solo en producción (`registrar-sw.js`). Sin librerías ni tests; verificado en el navegador con red Offline.
 - La web usa `API_URL` (`web/.env.local`, no se commitea).
 
 ## Errores y soluciones
@@ -30,3 +30,4 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Con `<Suspense>` la página de "no encontrado" sale con HTTP 200 (el streaming ya envió el status).
 - Si el formulario da "fetch failed": la API no está corriendo (`php artisan serve` en `api/`).
 - Capturas con chrome-devtools: el `take_screenshot` a veces tarda >2 min y pasa a segundo plano; esperar la notificación o repetirlo. El ícono "N" de Next aparece en algunas capturas: ignorarlo al comparar.
+- El Service Worker solo corre con `npm run build` + `npm start`; con `next dev` no se registra. Si el puerto 3000 ya tiene un `next dev`, probar la PWA en otro puerto (`npx next start -p 3100`).
