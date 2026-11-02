@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Tarjeta from "../../componentes/tarjeta";
 import Volver from "../../componentes/volver";
+import { fechaCorta } from "../../lib/formato";
 
 /**
  * Pide a la API el detalle de un café.
@@ -38,16 +39,10 @@ async function Detalle({ params }) {
     return <p className="text-red-400">No se pudo cargar el café</p>;
   }
 
-  const fecha = new Date(cafe.created_at).toLocaleString("es-AR", {
-    timeZone: "America/Argentina/Buenos_Aires",
-    dateStyle: "short",
-    timeStyle: "short",
-  });
-
   return (
     <Tarjeta>
       <h1 className="text-3xl font-semibold capitalize">{cafe.tipo}</h1>
-      <p className="mt-1 text-sm text-zinc-400">{fecha}</p>
+      <p className="mt-1 text-sm text-zinc-400">{fechaCorta(cafe.created_at)}</p>
       <dl className="mt-6 grid grid-cols-3 gap-4 text-sm">
         <div>
           <dt className="text-zinc-400">Café</dt>

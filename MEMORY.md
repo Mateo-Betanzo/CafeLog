@@ -4,7 +4,7 @@ Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 lí
 
 ## Estado actual
 - Feature en curso: ninguna
-- Última terminada: lista de cafés con scroll infinito (`GET /api/cafes` + `/cafes`), sin commitear. Antes: PWA (`6d20d58`)
+- Última terminada: refactor de lista-infinita.js (sin commitear). Antes: lista de cafés con scroll infinito (`3a1b95b`)
 - Próximo paso: elegir una feature de "Features pendientes" y presentar el plan
 
 ## Features pendientes
@@ -22,7 +22,7 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Web: acceso a la API en `web/app/lib/api.js` (`apiFetch`, `apiGet`, sin caché). Dashboard dividido en `page.js`, `graficos.js`, `grafico.js`, `filtros.js`; inicio en `page.js` + `resumen-hoy.js`. `cafes/[id]/page.js` todavía usa su propio `fetch`.
 - Componentes compartidos (2026-11-02): `app/componentes/tarjeta.js` (`Tarjeta`, prop `as`) y `volver.js` (`Volver`); `app/lib/formato.js` (`cafes(n)` → "café"/"cafés"). Mapa de calor dividido en `calor.js` + `bloque-mes.js` (`BloqueMes`, `nivel`, `colorNivel`). Verificado con capturas antes/después: idénticas.
 - PWA (2026-11-02): `web/public/manifest.json`, `sw.js` (network-first para todo GET del mismo origen, POST directo a la red, caché `cafelog-v1`), `offline.html` e íconos generados con Python en `public/icons/` (provisorios; el usuario los cambiará). El navegador no llama a la API (lo hace el servidor de Next), así que se cachean las páginas que ya traen los datos. Se registra solo en producción (`registrar-sw.js`). Sin librerías ni tests; verificado en el navegador con red Offline.
-- Lista (2026-11-02): `GET /api/cafes` pagina de a 10 (más nuevo primero). Web `/cafes`: la primera tanda la trae el servidor y `lista-infinita.js` (Client Component, IntersectionObserver) pide las siguientes con la Server Action `cafes/actions.js` (`cargarMas`), porque el navegador no llama a la API. Sin repetidos por id. Sin conexión no carga más tandas (las actions no se cachean).
+- Lista (2026-11-02): `GET /api/cafes` pagina de a 10 (más nuevo primero). Web `/cafes`: la primera tanda la trae el servidor y `lista-infinita.js` (Client Component, IntersectionObserver) pide las siguientes con la Server Action `cafes/actions.js` (`cargarMas`), porque el navegador no llama a la API. Sin repetidos por id. Refactor: hook genérico `lib/use-scroll-infinito.js`, `cafes/fila-cafe.js` y `fechaCorta` en `lib/formato.js` (también la usa `cafes/[id]/page.js`); capturas antes/después idénticas. Sin conexión no carga más tandas (las actions no se cachean).
 - La web usa `API_URL` (`web/.env.local`, no se commitea).
 
 ## Errores y soluciones
