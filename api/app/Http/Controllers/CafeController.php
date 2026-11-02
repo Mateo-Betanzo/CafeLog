@@ -35,13 +35,13 @@ class CafeController extends Controller
     }
 
     /**
-     * Mapa de calor del año actual: cafés por día de la semana y mes (ver `Cafe::calor`).
+     * Mapa de calor: cafés por día de los últimos 365 días (ver `Cafe::calor`).
      *
-     * @return \Illuminate\Http\JsonResponse `{"anio": 2026, "filas": [[12 enteros] x 7]}` (200).
+     * @return \Illuminate\Http\JsonResponse `{"dias": [{fecha, total}]}` (200).
      */
     public function calor()
     {
-        return response()->json(['anio' => today()->year, 'filas' => Cafe::calor()]);
+        return response()->json(['dias' => Cafe::calor()]);
     }
 
     /**

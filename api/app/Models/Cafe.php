@@ -98,20 +98,21 @@ class Cafe extends Model
     }
 
     /**
-     * Cantidad de cafés del año actual por día de la semana y mes.
+     * Cantidad de cafés por día de los últimos 365 días (incluido hoy), del más viejo al más nuevo.
      *
-     * @return array<int, array<int, int>> 7 filas (lunes a domingo) de 12 columnas (enero a diciembre).
+     * @return Collection<int, array{fecha: string, total: int}> Los días sin cafés vienen con total 0.
      */
-    public static function calor(): array
+    public static function calor(): Collection
     {
-        $filas = array_fill(0, 7, array_fill(0, 12, 0));
+        $inicio = today()->subDays(364);
 
-        $cafes = static::whereBetween('created_at', [today()->startOfYear(), today()->endOfYear()])->get();
+        $porDia = static::where('created_at', '>=', $inicio)
+            ->get()
+            ->countBy(fn (Cafe $cafe) => $cafe->created_at->format('Y-m-d'));
 
-        foreach ($cafes as $cafe) {
-            $filas[$cafe->created_at->dayOfWeekIso - 1][$cafe->created_at->month - 1]++;
-        }
-
-        return $filas;
+        return collect(CarbonPeriod::create($inicio, today()))->map(fn (Carbon $dia) => [
+            'fecha' => $dia->format('Y-m-d'),
+            'total' => $porDia->get($dia->format('Y-m-d'), 0),
+        ]);
     }
 }

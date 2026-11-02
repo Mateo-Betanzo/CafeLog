@@ -37,32 +37,28 @@ class CafeCalorTest extends TestCase
         $this->travelTo('2026-11-04 12:00:00');
     }
 
-    /** Sin cafés devuelve 7 filas (lunes a domingo) de 12 meses, todo en cero. */
-    public function test_sin_cafes_devuelve_la_matriz_en_cero(): void
+    /** Sin cafés devuelve los últimos 365 días, del más viejo a hoy, todo en cero. */
+    public function test_sin_cafes_devuelve_365_dias_en_cero(): void
     {
-        $respuesta = $this->getJson('/api/cafes/calor')->assertOk();
+        $dias = $this->getJson('/api/cafes/calor')->assertOk()->json('dias');
 
-        $this->assertSame(2026, $respuesta->json('anio'));
-        $filas = $respuesta->json('filas');
-        $this->assertCount(7, $filas);
-        $this->assertSame(array_fill(0, 12, 0), $filas[0]);
-        $this->assertSame(0, array_sum(array_map('array_sum', $filas)));
+        $this->assertCount(365, $dias);
+        $this->assertSame(['fecha' => '2025-11-05', 'total' => 0], $dias[0]);
+        $this->assertSame(['fecha' => '2026-11-04', 'total' => 0], $dias[364]);
     }
 
-    /** Cuenta cada café en su día de la semana y su mes, e ignora otros años. */
-    public function test_cuenta_por_dia_de_la_semana_y_mes(): void
+    /** Cuenta los cafés en su día exacto e ignora los de hace más de 365 días. */
+    public function test_cuenta_los_cafes_de_cada_dia(): void
     {
-        $this->cafe('2026-11-04 08:00:00'); // miércoles de noviembre
-        $this->cafe('2026-11-11 09:00:00'); // otro miércoles de noviembre
-        $this->cafe('2026-01-05 10:00:00'); // lunes de enero
-        $this->cafe('2026-12-27 10:00:00'); // domingo de diciembre
-        $this->cafe('2025-11-05 10:00:00'); // otro año: no cuenta
+        $this->cafe('2026-11-04 08:00:00');
+        $this->cafe('2026-11-04 17:00:00');
+        $this->cafe('2025-11-05 10:00:00'); // primer día del rango
+        $this->cafe('2025-11-04 10:00:00'); // un día afuera
 
-        $filas = $this->getJson('/api/cafes/calor')->json('filas');
+        $dias = $this->getJson('/api/cafes/calor')->json('dias');
 
-        $this->assertSame(2, $filas[2][10]);
-        $this->assertSame(1, $filas[0][0]);
-        $this->assertSame(1, $filas[6][11]);
-        $this->assertSame(4, array_sum(array_map('array_sum', $filas)));
+        $this->assertSame(2, $dias[364]['total']);
+        $this->assertSame(1, $dias[0]['total']);
+        $this->assertSame(3, array_sum(array_column($dias, 'total')));
     }
 }
