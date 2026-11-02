@@ -45,6 +45,17 @@ class CafeController extends Controller
     }
 
     /**
+     * Lista los cafés del más nuevo al más viejo, en tandas de 10 (`?page=`).
+     * La web no muestra páginas: pide las tandas una tras otra con scroll infinito.
+     *
+     * @return \Illuminate\Http\JsonResponse La tanda pedida en `data`, más `current_page` y `last_page` (200).
+     */
+    public function index()
+    {
+        return response()->json(Cafe::orderByDesc('created_at')->orderByDesc('id')->paginate(10));
+    }
+
+    /**
      * Devuelve el detalle de un café.
      *
      * @param  int  $id  Id del café.

@@ -26,6 +26,12 @@ export default function Home() {
           Agregar café
         </Link>
         <Link
+          href="/cafes"
+          className="rounded-2xl border border-borde bg-tarjeta px-5 py-3 font-medium"
+        >
+          Mis cafés
+        </Link>
+        <Link
           href="/dashboard"
           className="rounded-2xl border border-borde bg-tarjeta px-5 py-3 font-medium"
         >
