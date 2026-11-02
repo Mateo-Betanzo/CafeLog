@@ -4,7 +4,7 @@ Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 lí
 
 ## Estado actual
 - Feature en curso: ninguna
-- Última terminada: barra de navegación vertical (sin commitear). Antes: refactor de la lista infinita (`c6dae2c`)
+- Última terminada: lista de cafés agrupada por día (sin commitear). Antes: barra de navegación (`a00945f`)
 - Próximo paso: elegir una feature de "Features pendientes" y presentar el plan
 
 ## Features pendientes
@@ -24,6 +24,8 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - PWA (2026-11-02): `web/public/manifest.json`, `sw.js` (network-first para todo GET del mismo origen, POST directo a la red, caché `cafelog-v1`), `offline.html` e íconos generados con Python en `public/icons/` (provisorios; el usuario los cambiará). El navegador no llama a la API (lo hace el servidor de Next), así que se cachean las páginas que ya traen los datos. Se registra solo en producción (`registrar-sw.js`). Sin librerías ni tests; verificado en el navegador con red Offline.
 - Lista (2026-11-02): `GET /api/cafes` pagina de a 10 (más nuevo primero). Web `/cafes`: la primera tanda la trae el servidor y `lista-infinita.js` (Client Component, IntersectionObserver) pide las siguientes con la Server Action `cafes/actions.js` (`cargarMas`), porque el navegador no llama a la API. Sin repetidos por id. Refactor: hook genérico `lib/use-scroll-infinito.js`, `cafes/fila-cafe.js` y `fechaCorta` en `lib/formato.js` (también la usa `cafes/[id]/page.js`); capturas antes/después idénticas. Sin conexión no carga más tandas (las actions no se cachean).
 - Navegación (2026-11-02): `componentes/navegacion.js`, cápsula fija abajo a la izquierda (en <768 px, horizontal abajo al centro) con Inicio, Mis cafés, Dashboard y Nuevo café; activo en blanco, resto apagado, `aria-current`. Va en `layout.js` dentro de `<Suspense>` (por `usePathname` con `cacheComponents`). Íconos PROVISORIOS (letras I, C, D, +): el usuario los cambia en la lista `ENLACES`. Se quitaron los botones "Mis cafés" y "Dashboard" del inicio; quedan los "← Volver".
+- Lista por día (2026-11-02): `/cafes` muestra un título por día (Hoy, Ayer, "Lunes 26 de octubre", con año si no es el actual) y debajo sus tarjetas con solo la hora en 24 h (`hora`, `dia`, `tituloDia`, `agruparPorDia` en `lib/formato.js`; `fechaCorta` también pasó a 24 h). Días en horario de Buenos Aires. Tests con `node --test app/lib/formato.test.js` (runner de Node, sin librerías; avisa por el tipo de módulo, es inofensivo).
+- Pendiente menor: en celular el texto de cantidades de la fila a veces parte "azúcar" en 2 líneas.
 - La web usa `API_URL` (`web/.env.local`, no se commitea).
 
 ## Errores y soluciones
