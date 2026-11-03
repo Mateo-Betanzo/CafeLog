@@ -50,13 +50,37 @@ class Cafe extends Model
      */
     public static function registrar(array $datos): static
     {
+        return static::create($datos + static::conversiones($datos));
+    }
+
+    /**
+     * Reemplaza los datos del café y recalcula sus ml y sus gramos de azúcar.
+     * Si no viene la nota, se borra.
+     *
+     * @param  array{tipo: string, cucharaditas: int, nota?: string|null}  $datos  Ya validados.
+     */
+    public function actualizar(array $datos): static
+    {
+        $this->update($datos + ['nota' => null] + static::conversiones($datos));
+
+        return $this;
+    }
+
+    /**
+     * Ml de café, ml de leche y gramos de azúcar que corresponden al tipo y a las cucharaditas.
+     *
+     * @param  array{tipo: string, cucharaditas: int}  $datos
+     * @return array{cafe_ml: int, leche_ml: int, azucar_g: int}
+     */
+    private static function conversiones(array $datos): array
+    {
         [$cafeMl, $lecheMl] = static::TIPOS[$datos['tipo']];
 
-        return static::create($datos + [
+        return [
             'cafe_ml' => $cafeMl,
             'leche_ml' => $lecheMl,
             'azucar_g' => $datos['cucharaditas'] * static::GRAMOS_POR_CUCHARADITA,
-        ]);
+        ];
     }
 
     /**

@@ -1,27 +1,10 @@
-import { notFound } from "next/navigation";
+import Link from "next/link";
 import { Suspense } from "react";
 import Tarjeta from "../../componentes/tarjeta";
 import Encabezado from "../../componentes/encabezado";
-import { apiFetch } from "../../lib/api";
 import { fechaCorta } from "../../lib/fechas";
-
-/**
- * Pide a la API el detalle de un café.
- *
- * @param {string} id Id del café.
- * @returns {Promise<object | null>} El café, o `null` si la API no responde.
- *   Si el café no existe, dispara `notFound()`.
- */
-async function obtenerCafe(id) {
-  let res;
-  try {
-    res = await apiFetch(`/cafes/${id}`);
-  } catch {
-    return null;
-  }
-  if (res.status === 404) notFound();
-  return res.ok ? await res.json() : null;
-}
+import { obtenerCafe } from "../obtener-cafe";
+import BotonEliminar from "./boton-eliminar";
 
 /**
  * Tarjeta con el detalle de un café (Server Component).
@@ -65,6 +48,12 @@ async function Detalle({ params }) {
           {cafe.nota}
         </p>
       )}
+      <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-borde pt-4">
+        <Link href={`/cafes/${id}/editar`} className="boton">
+          Editar
+        </Link>
+        <BotonEliminar id={id} />
+      </div>
     </Tarjeta>
   );
 }

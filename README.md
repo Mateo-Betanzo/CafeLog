@@ -13,6 +13,7 @@ El diseño de la interfaz grafica y la experiencia de usuario debe estar casi ca
 ## Stack
 
 **Backend (`api/`)**
+
 - PHP con Laravel
 - Eloquent, migraciones y seeders
 - Base de datos SQLite (la que trae Laravel por defecto)
@@ -21,6 +22,7 @@ El diseño de la interfaz grafica y la experiencia de usuario debe estar casi ca
 - Pruebas manuales con Thunder Client
 
 **Frontend (`web/`)**
+
 - JavaScript con Next.js (App Router) y React
 - Server Components para traer los datos de la API
 - Client Components con `'use client'` para los filtros
@@ -29,11 +31,13 @@ El diseño de la interfaz grafica y la experiencia de usuario debe estar casi ca
 - Tailwind CSS para los estilos, sin librerías de gráficos (barras y mapa de calor con CSS)
 
 **PWA**
+
 - `manifest.json`
 - Service Worker
 - Caché de la API (network-first) y página de "sin conexión"
 
 **Herramientas**
+
 - Git y GitHub
 - Node.js y npm
 - Composer
@@ -58,6 +62,7 @@ El diseño de la interfaz grafica y la experiencia de usuario debe estar casi ca
 ## Cómo correrlo
 
 **API**
+
 ```bash
 cd api
 composer install
@@ -68,6 +73,7 @@ php artisan serve        # http://localhost:8000
 ```
 
 **Web**
+
 ```bash
 cd web
 npm install
@@ -77,16 +83,18 @@ node --test app/lib/fechas.test.js app/dashboard/periodos.test.js app/dashboard/
 ```
 
 **PWA** (el Service Worker solo se registra en producción)
+
 ```bash
 cd web
 npm run build
 npm start                # http://localhost:3000 → instalable desde el navegador
 ```
+
 Prueba: abrir `/dashboard`, recargar, poner la red en Offline (DevTools) y recargar: se ve la última copia. Una ruta no visitada muestra `/offline.html`.
 
 ## Tabla de pruebas
 
-Pruebas manuales de la API (2026-11-03), hechas con `curl` sobre una base de datos temporal en lugar de Thunder Client. Se completa a medida que se implementa cada endpoint.
+Pruebas manuales de la API, hechas con Thunder Client.
 
 | Método | Ruta | Caso | Esperado | Resultado |
 |--------|------|------|----------|-----------|
@@ -110,4 +118,23 @@ Pruebas manuales de la API (2026-11-03), hechas con `curl` sobre una base de dat
 
 ## Informe
 
-_(Se completa al final del proyecto: decisiones tomadas, problemas encontrados, qué se aprendió.)_
+**1. Códigos de estado.**
+`GET /api/cafes/999` devuelve **404**: la ruta existe, pero no hay un café con ese id, y `findOrFail` lo avisa con ese código.
+`POST /api/cafes` con `{"tipo":"mate","cucharaditas":2}` devuelve **422**: el pedido está bien armado y el servidor lo entiende, pero los datos no pasan la validación (el tipo no está entre los de `Cafe::TIPOS`).
+Con 404 el problema es el recurso que pido; con 422 el problema es lo que mando en el cuerpo, y la respuesta trae el detalle de cada campo.
+
+**2. HTTPS.**
+En HTTP, alguien que esté en la misma red (por ejemplo, el wifi de un bar) podría leer todo lo que viaja: los cafés que registro, sus notas y las páginas que veo, y hasta modificarlos en el camino. HTTPS cifra el tráfico y comprueba que el servidor es el verdadero.
+El Service Worker lo exige porque intercepta todos los pedidos de la app y puede responder lo que quiera, también sin conexión. Si se pudiera instalar por HTTP, un atacante en la red podría meter su propio Service Worker y quedarse controlando la app. Solo se permite sin HTTPS en `localhost`, para poder probar.
+
+**3. CORS.**
+CORS es una regla del **navegador**: no deja que el JavaScript de una página (por ejemplo `localhost:3000`) lea la respuesta de otro origen (`localhost:8000`) si ese servidor no lo permite. El `fetch` de un Server Component corre en el servidor de Next.js, no en el navegador, así que no hay chequeo de CORS. En CafeLog es así incluso con la Server Action `cargarMas` del scroll infinito: el navegador nunca habla con Laravel.
+Aparecería si un Client Component hiciera `fetch("http://localhost:8000/api/cafes")` desde el navegador: entonces Laravel tendría que responder con los encabezados de CORS.
+
+**4. PWA y TWA.**
+No, CafeLog no necesita estar en Google Play. Como PWA ya se puede instalar desde el navegador (tiene `manifest.json`, íconos, `display: standalone` y Service Worker) y abre sin conexión, que es lo que necesito.
+Una TWA solo sirve para empaquetar esa misma PWA y publicarla en la tienda; pediría una cuenta de desarrollador, la revisión de Google y mantener otro paquete, y para una app de uso personal no suma nada.
+
+**5. Decisiones.**
+Lo que más me costó fue entender que el navegador no le pega a la API, lo hace el servidor de Next.js. Eso cambió tres cosas: el scroll infinito de `/cafes` lo resolví con una Server Action (`cargarMas`); el caché del Service Worker guarda las páginas ya armadas (network-first), no las respuestas de la API; y tuve que poner cada `fetch` dentro de un `<Suspense>`, porque con `cacheComponents` Next rechazaba datos dinámicos durante el prerenderizado.
+También decidí que la API haga todas las conversiones (tipo a ml, cucharaditas a gramos) y que sea la única fuente de los tipos de café (`GET /api/cafes/tipos`), para no tener la lista repetida en la web.

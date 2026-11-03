@@ -87,12 +87,47 @@ class CafeController extends Controller
      */
     public function store(Request $request)
     {
-        $datos = $request->validate([
+        return response()->json(Cafe::registrar($this->validar($request)), 201);
+    }
+
+    /**
+     * Reemplaza los datos de un café y recalcula sus ml y gramos. Sin nota, se borra.
+     *
+     * @param  Request  $request  Datos: tipo, cucharaditas y nota opcional.
+     * @param  int  $id  Id del café.
+     * @return \Illuminate\Http\JsonResponse El café actualizado (200); 404 si no existe; 422 si la validación falla.
+     */
+    public function update(Request $request, int $id)
+    {
+        $cafe = Cafe::findOrFail($id);
+
+        return response()->json($cafe->actualizar($this->validar($request)));
+    }
+
+    /**
+     * Borra un café.
+     *
+     * @param  int  $id  Id del café.
+     * @return \Illuminate\Http\JsonResponse `{"mensaje": "Café eliminado"}` (200); 404 si no existe.
+     */
+    public function destroy(int $id)
+    {
+        Cafe::findOrFail($id)->delete();
+
+        return response()->json(['mensaje' => 'Café eliminado']);
+    }
+
+    /**
+     * Valida los datos de un café (los mismos al crear y al actualizar).
+     *
+     * @return array{tipo: string, cucharaditas: int, nota?: string|null}
+     */
+    private function validar(Request $request): array
+    {
+        return $request->validate([
             'tipo' => ['required', Rule::in(array_keys(Cafe::TIPOS))],
             'cucharaditas' => 'required|integer|min:0|max:'.Cafe::MAX_CUCHARADITAS,
             'nota' => 'nullable|string|max:1000',
         ]);
-
-        return response()->json(Cafe::registrar($datos), 201);
     }
 }

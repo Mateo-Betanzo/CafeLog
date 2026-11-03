@@ -3,13 +3,13 @@
 Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 líneas.** Si se llena, resumir y borrar lo viejo.
 
 ## Estado actual
-- Feature en curso: ninguna
-- Última terminada: nits de la revisión de clean-code-guard (último commit). Antes: limpieza del scaffold (`11d0e1d`), tipos desde la API (`d17113c`), refactor de mantenimiento (`bbf6b2e`), diseño (`c2fe3fd`)
-- Próximo paso: completar el Informe del `README.md`
+- Feature en curso: ninguna (API completa + editar/eliminar en la web, hechos y verificados, **sin commitear: esperando el OK del usuario**)
+- Última terminada: API completa según el PDF y editar/eliminar desde la web (pendiente de commit). Antes: limpieza del scaffold (`11d0e1d`), tipos desde la API (`d17113c`), refactor de mantenimiento (`bbf6b2e`), diseño (`c2fe3fd`)
+- Próximo paso: revisar el Informe del `README.md` (borrador escrito el 2026-11-03, sin commitear) y decidir qué puntos del PDF de arriba se hacen
 
 ## Features pendientes
 Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una línea).
-- Informe final del `README.md` (decisiones, problemas, aprendizajes): lo escribe el usuario o se arma con él
+- Según el PDF del TP (entrega 13/11) falta: subir el repo a GitHub (sin `.env`, `vendor/`, `node_modules/`); opcional: repetir la tabla de pruebas con Thunder Client (hoy es con `curl`)
 
 ## Decisiones
 - Stack: Laravel en `api/` (SQLite), Next.js JS/App Router en `web/` con Tailwind (pedido del usuario). Rutas API a mano, sin Sanctum.
@@ -28,6 +28,8 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Diseño (2026-11-02): botón = clase `boton` en `globals.css` (`@utility`, pastilla negra, borde `white/25`); `Tarjeta` `rounded-lg p-7`, campos `rounded-lg`, filtros en pastilla (activa gris claro). Gráficos del dashboard (`grafico.js`, solo CSS, sin Chart.js aunque el usuario lo permitió): barras `rounded-t` sobre 3 guías tenues con escala 0/mitad/máx, la más alta en naranja pleno y el resto al 50 %, tooltip con fecha y valor al pasar el mouse, promedio por día (por mes en el año) sin contar días futuros.
 - Tipos (2026-11-03): `GET /api/cafes/tipos` → `{tipos, max_cucharaditas}` (`Cafe::TIPOS`, `Cafe::MAX_CUCHARADITAS`, también usada en la validación de `store`). `/nuevo` es Server Component con `<Suspense>`: trae los tipos y se los pasa a `Formulario` por props; sin API muestra error, sin lista de respaldo (decisión del usuario).
 - Limpieza (2026-11-03): `api/` es solo API: sin `routes/web.php` (queda `/up`), vistas, vite/npm, `User`, `UserFactory` ni migraciones de users/cache/jobs; el seeder está vacío. Las tablas viejas (users, sessions, cache, jobs) siguen en `database.sqlite` ya migrada, pero una base nueva solo crea `cafes`. `migrate:rollback` de esas migraciones borradas daría error. `.env.example` sigue con sesión/caché/cola en `database` (inofensivo).
+- API completa (2026-11-03): `apiResource` con las 5 acciones. `PUT`/`PATCH` validan igual que `POST` y reemplazan el café entero (sin `nota` se borra); `Cafe::actualizar` y `Cafe::registrar` comparten `conversiones()`. `DELETE` responde 200 `{mensaje}`. Seeder: 10 cafés de los últimos 14 días (fechas relativas a hoy; correr `db:seed` dos veces duplica). Mensajes en español: `api/lang/es/validation.php` (solo las reglas usadas) y `lang/es.json` (el "(y N errores más)"); `APP_LOCALE=es` por defecto en `config/app.php` y `.env.example`.
+- Editar/eliminar en la web (2026-11-03): el detalle `/cafes/[id]` tiene "Editar" (link a `/cafes/[id]/editar`, que reusa `nuevo/formulario.js` con `cafe` y `accion`) y `boton-eliminar.js` (confirmación en dos pasos). Server Actions en `cafes/[id]/actions.js` (`editarCafe` vuelve al detalle, `eliminarCafe` a `/cafes`; un 404 al borrar también vuelve); `lib/enviar-cafe.js` comparte el envío con `crearCafe`; `cafes/obtener-cafe.js` lo comparten detalle y edición. Verificado en Chrome headless (CDP) contra API y base temporales; no se pudo con el MCP (perfil ocupado). Next deja la página anterior oculta en el DOM tras redirigir: no es un error.
 - La web usa `API_URL` (`web/.env.local`, no se commitea).
 
 ## Errores y soluciones
@@ -39,5 +41,6 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Capturas con chrome-devtools: el `take_screenshot` a veces tarda >2 min y pasa a segundo plano; esperar la notificación o repetirlo. El ícono "N" de Next aparece en algunas capturas: ignorarlo al comparar.
 - El Service Worker solo corre con `npm run build` + `npm start`; con `next dev` no se registra. Si el puerto 3000 ya tiene un `next dev`, probar la PWA en otro puerto (`npx next start -p 3100`).
 - chrome-devtools MCP: si dice "browser is already running for ...chrome-profile", hay dos servidores MCP peleando por el perfil; no matar procesos sin preguntar. Alternativa sin navegador: comparar el HTML del servidor (curl, sin `<script>`/`<link>`) antes y después.
+- `pkill -f "next start..."` desde Bash mata el propio shell (el patrón coincide con el comando): usar `ss -ltnp` + `kill <pid>`.
 - Capturas sin el MCP: `chrome --headless=new --user-data-dir=<tmp> --virtual-time-budget=6000 --screenshot=...` con perfil propio.
 - Un `grid` suelto se coló en `lib/formato.js` (editor) y entró al commit 7fced6a por `git add -A`; borrado. Revisar `git diff` antes de commitear.

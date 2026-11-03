@@ -60,4 +60,18 @@ class CafeStoreTest extends TestCase
         $this->postJson('/api/cafes', $this->datos(['cucharaditas' => 1.5]))->assertUnprocessable();
         $this->postJson('/api/cafes', [])->assertUnprocessable();
     }
+
+    /** Los mensajes de validación salen en español. */
+    public function test_los_mensajes_de_validacion_estan_en_espanol(): void
+    {
+        $this->postJson('/api/cafes', $this->datos(['tipo' => 'mate']))
+            ->assertJsonPath('errors.tipo.0', 'El valor elegido en tipo no es válido.');
+
+        $this->postJson('/api/cafes', $this->datos(['cucharaditas' => 11]))
+            ->assertJsonPath('errors.cucharaditas.0', 'El campo cucharaditas no puede ser mayor que 10.');
+
+        $this->postJson('/api/cafes', [])
+            ->assertJsonPath('errors.tipo.0', 'El campo tipo es obligatorio.')
+            ->assertJsonPath('message', 'El campo tipo es obligatorio. (y 1 error más)');
+    }
 }

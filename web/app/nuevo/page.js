@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Encabezado from "../componentes/encabezado";
 import { apiGet } from "../lib/api";
+import { crearCafe } from "./actions";
 import Formulario from "./formulario";
 
 /**
@@ -15,7 +16,7 @@ async function FormularioConTipos() {
     return <p className="text-red-400">No se pudo cargar el formulario</p>;
   }
 
-  return <Formulario tipos={opciones.tipos} maxCucharaditas={opciones.max_cucharaditas} />;
+  return <Formulario tipos={opciones.tipos} maxCucharaditas={opciones.max_cucharaditas} accion={crearCafe} />;
 }
 
 /**
