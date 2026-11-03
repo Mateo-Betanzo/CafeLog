@@ -1,7 +1,8 @@
 import Tarjeta from "../componentes/tarjeta";
 import { apiGet } from "../lib/api";
 import { cafes } from "../lib/formato";
-import BloqueMes, { NIVELES, colorNivel } from "./bloque-mes";
+import BloqueMes from "./bloque-mes";
+import { NIVELES, colorNivel } from "./niveles";
 
 /**
  * Mapa de calor estilo LeetCode: una celda por día de los últimos 365 días,

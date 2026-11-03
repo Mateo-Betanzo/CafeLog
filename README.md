@@ -73,7 +73,7 @@ cd web
 npm install
 echo "API_URL=http://localhost:8000" > .env.local
 npm run dev              # http://localhost:3000
-node --test app/lib/fechas.test.js app/dashboard/periodos.test.js   # tests de fechas y periodos (runner de Node)
+node --test app/lib/fechas.test.js app/dashboard/periodos.test.js app/dashboard/niveles.test.js   # tests de fechas, periodos y niveles (runner de Node)
 ```
 
 **PWA** (el Service Worker solo se registra en producción)

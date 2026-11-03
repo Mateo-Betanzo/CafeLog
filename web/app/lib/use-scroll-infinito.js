@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * @param {object} opciones
  * @param {{id: number}[]} opciones.inicial Primera tanda, que ya trae el servidor.
  * @param {number} opciones.ultimaPagina Número de la última tanda.
- * @param {(pagina: number) => Promise<{cafes: object[]} | null>} opciones.cargarMas
+ * @param {(pagina: number) => Promise<{items: object[]} | null>} opciones.cargarMas
  *   Pide una tanda (empieza en 2). Devuelve `null` si falla.
  * @returns {{items: object[], cargando: boolean, error: boolean, hayMas: boolean,
  *   centinela: import("react").RefObject<HTMLElement>, reintentar: () => Promise<void>}}
@@ -28,7 +28,7 @@ export function useScrollInfinito({ inicial, ultimaPagina, cargarMas }) {
     if (respuesta) {
       setItems((actuales) => {
         const ids = new Set(actuales.map((i) => i.id));
-        return [...actuales, ...respuesta.cafes.filter((i) => !ids.has(i.id))];
+        return [...actuales, ...respuesta.items.filter((i) => !ids.has(i.id))];
       });
       setPagina((p) => p + 1);
     } else {

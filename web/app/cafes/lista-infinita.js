@@ -6,6 +6,28 @@ import { cargarMas } from "./actions";
 import FilaCafe from "./fila-cafe";
 
 /**
+ * Pie de la lista: botón para reintentar si falló, "Cargando…" mientras pide
+ * una tanda o "No hay más cafés" al llegar al final.
+ *
+ * @param {{error: boolean, cargando: boolean, hayMas: boolean, reintentar: () => void}} props
+ * @returns {JSX.Element | string | null}
+ */
+function Pie({ error, cargando, hayMas, reintentar }) {
+  if (error) {
+    return (
+      <>
+        <p className="text-red-400">No se pudo cargar</p>
+        <button onClick={reintentar} className="boton mt-2">
+          Reintentar
+        </button>
+      </>
+    );
+  }
+  if (cargando) return "Cargando…";
+  return hayMas ? null : "No hay más cafés";
+}
+
+/**
  * Lista de cafés con scroll infinito (Client Component), agrupada por día: cada
  * día es un título con sus tarjetas debajo. Muestra la primera
  * tanda que trae el servidor y pide las siguientes con la Server Action
@@ -36,18 +58,7 @@ export default function ListaInfinita({ inicial, ultimaPagina }) {
         </section>
       ))}
       <div ref={centinela} className="py-6 text-center text-sm text-zinc-400">
-        {error ? (
-          <>
-            <p className="text-red-400">No se pudo cargar</p>
-            <button onClick={reintentar} className="boton mt-2">
-              Reintentar
-            </button>
-          </>
-        ) : cargando ? (
-          "Cargando…"
-        ) : (
-          !hayMas && "No hay más cafés"
-        )}
+        <Pie error={error} cargando={cargando} hayMas={hayMas} reintentar={reintentar} />
       </div>
     </>
   );

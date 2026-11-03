@@ -7,9 +7,9 @@ import { apiGet } from "../lib/api";
  * desde el navegador porque solo el servidor de Next puede hablar con la API.
  *
  * @param {number} pagina Número de tanda que entiende la API (`?page=`), desde 1.
- * @returns {Promise<{cafes: object[]} | null>} Los cafés de la tanda, o `null` si falla.
+ * @returns {Promise<{items: object[]} | null>} Los cafés de la tanda, o `null` si falla.
  */
 export async function cargarMas(pagina) {
   const respuesta = await apiGet(`/cafes?page=${pagina}`);
-  return respuesta ? { cafes: respuesta.data } : null;
+  return respuesta ? { items: respuesta.data } : null;
 }

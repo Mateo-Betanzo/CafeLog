@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "clean-code-guard": {
+      "source": "sickn33/agentic-awesome-skills",
+      "sourceType": "github",
+      "skillPath": "skills/clean-code-guard/SKILL.md",
+      "computedHash": "93c0f61404c750a24849f6c6c69b9eeeccebefed6ce02cb9c10420aafda25aaa"
+    }
+  }
+}
