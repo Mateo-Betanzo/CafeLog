@@ -27,7 +27,7 @@ export default function Navegacion() {
       aria-label="Navegación principal"
       className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 md:bottom-6 md:left-6 md:translate-x-0"
     >
-      <ul className="flex items-center gap-3 rounded-full border border-white/10 bg-black p-2 md:flex-col md:gap-5 md:px-2 md:py-5">
+      <ul className="flex items-center gap-3 rounded-full border border-white/20 bg-black p-2 md:flex-col md:gap-5 md:px-2 md:py-5">
         {ENLACES.map(({ href, nombre, icono }) => {
           const activo = href === "/" ? ruta === "/" : ruta.startsWith(href);
           return (

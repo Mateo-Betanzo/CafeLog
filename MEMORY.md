@@ -4,7 +4,7 @@ Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 lí
 
 ## Estado actual
 - Feature en curso: ninguna
-- Última terminada: botones pastilla, cards `rounded-lg` y gráficos rediseñados (sin commitear). Antes: encabezado con flecha (`4ba9ed8`)
+- Última terminada: diseño (botones, cards, gráficos) (`c2fe3fd`). Antes: encabezado con flecha (`4ba9ed8`)
 - Próximo paso: elegir una feature de "Features pendientes" y presentar el plan
 
 ## Features pendientes
@@ -26,7 +26,6 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Navegación (2026-11-02): `componentes/navegacion.js`, cápsula fija abajo a la izquierda (en <768 px, horizontal abajo al centro) con Inicio, Mis cafés, Dashboard y Nuevo café; activo en blanco, resto apagado, `aria-current`. Va en `layout.js` dentro de `<Suspense>` (por `usePathname` con `cacheComponents`). Íconos: SVG de `web/public/svg/` (home-simple, sphere, square-3d-corner-to-corner, plus) en la lista `ENLACES`; el componente `componentes/icono.js` los dibuja como máscara CSS con `currentColor` (un `<img>` no hereda el color). `Encabezado` usa `nav-arrow-left`. Se quitaron los botones "Mis cafés" y "Dashboard" del inicio.
 - Lista por día (2026-11-02): `/cafes` muestra un título por día (Hoy, Ayer, "Lunes 26 de octubre", con año si no es el actual) y debajo sus tarjetas con solo la hora en 24 h (todo lo de fechas vive en `lib/fechas.js`: `fechaCorta`, `fechaLarga`, `hora`, `dia`, `tituloDia`, `agruparPorDia`; 24 h). Días en horario de Buenos Aires. Tests con `node --test app/lib/fechas.test.js` (11) (runner de Node, sin librerías; avisa por el tipo de módulo, es inofensivo).
 - Diseño (2026-11-02): botón = clase `boton` en `globals.css` (`@utility`, pastilla negra, borde `white/25`); `Tarjeta` `rounded-lg p-7`, campos `rounded-lg`, filtros en pastilla (activa gris claro). Gráficos del dashboard (`grafico.js`, solo CSS, sin Chart.js aunque el usuario lo permitió): barras `rounded-t` sobre 3 guías tenues con escala 0/mitad/máx, la más alta en naranja pleno y el resto al 50 %, tooltip con fecha y valor al pasar el mouse, promedio por día (por mes en el año) sin contar días futuros.
-- Pendiente menor: en celular el texto de cantidades de la fila a veces parte "azúcar" en 2 líneas.
 - La web usa `API_URL` (`web/.env.local`, no se commitea).
 
 ## Errores y soluciones
