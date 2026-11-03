@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import Navegacion from "./componentes/navegacion";
+import CursorSuave from "./cursor-suave";
 import RegistrarSW from "./registrar-sw";
 
 const geistSans = Geist({
@@ -39,6 +40,7 @@ export default function RootLayout({ children }) {
           <Navegacion />
         </Suspense>
         <RegistrarSW />
+        <CursorSuave />
       </body>
     </html>
   );

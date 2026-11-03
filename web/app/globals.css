@@ -7,30 +7,13 @@
   --color-acento: #995d2d;
 }
 
-/*
- * Cursores: flecha en toda la página y mano en lo que se puede apretar. Para cambiarlos,
- * reemplazá los PNG de public/cursores/ (o el punto activo "x y", en píxeles de la imagen).
- */
-:root {
-  --cursor-flecha: url(/cursores/flecha.png) 1 0, default;
-  --cursor-mano: url(/cursores/mano.png) 9 0, pointer;
+/* Con el cursor propio activo (ver cursor-suave.js) se oculta el del sistema, salvo en los campos de texto. */
+html.cursor-suave * {
+  cursor: none !important;
 }
 
-html {
-  cursor: var(--cursor-flecha);
-}
-
-a,
-button,
-select,
-summary,
-[role="button"] {
-  cursor: var(--cursor-mano);
-}
-
-input,
-textarea {
-  cursor: text;
+html.cursor-suave :is(input, textarea) {
+  cursor: text !important;
 }
 
 /* Botón principal: pastilla negra con borde blanco tenue. */
