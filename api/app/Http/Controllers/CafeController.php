@@ -65,7 +65,7 @@ class CafeController extends Controller
      */
     public function index()
     {
-        return response()->json(Cafe::orderByDesc('created_at')->orderByDesc('id')->paginate(10));
+        return response()->json(Cafe::recientes());
     }
 
     /**

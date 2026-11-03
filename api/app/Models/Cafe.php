@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 /**
@@ -89,13 +90,21 @@ class Cafe extends Model
      * @param  Collection<int, Cafe>  $cafes
      * @return array{cafe_ml: int, leche_ml: int, azucar_g: int}
      */
-    public static function totales(Collection $cafes): array
+    private static function totales(Collection $cafes): array
     {
         return [
             'cafe_ml' => (int) $cafes->sum('cafe_ml'),
             'leche_ml' => (int) $cafes->sum('leche_ml'),
             'azucar_g' => (int) $cafes->sum('azucar_g'),
         ];
+    }
+
+    /**
+     * Cafés del más nuevo al más viejo, en tandas de 10.
+     */
+    public static function recientes(): LengthAwarePaginator
+    {
+        return static::orderByDesc('created_at')->orderByDesc('id')->paginate(10);
     }
 
     /**

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Encabezado from "../../../componentes/encabezado";
 import { apiGet } from "../../../lib/api";
-import Formulario from "../../../nuevo/formulario";
+import Formulario from "../../../componentes/formulario-cafe";
 import { obtenerCafe } from "../../obtener-cafe";
 import { editarCafe } from "../actions";
 

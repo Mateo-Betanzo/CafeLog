@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import Tarjeta from "../componentes/tarjeta";
+import Tarjeta from "./tarjeta";
 
 const campo =
   "w-full rounded-lg border border-borde bg-fondo px-4 py-3 text-white";
@@ -48,12 +48,13 @@ export default function Formulario({ tipos, maxCucharaditas, accion: guardar, ca
       </label>
       {estado?.errores && (
         <ul className="text-sm text-red-400">
-          {estado.errores.map((e) => (
-            <li key={e}>{e}</li>
+          {estado.errores.map((e, i) => (
+            <li key={`${i}-${e}`}>{e}</li>
           ))}
         </ul>
       )}
       <button
+        type="submit"
         disabled={pendiente}
         className="boton bg-white text-black hover:bg-zinc-200"
       >

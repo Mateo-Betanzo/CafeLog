@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { avanzarResorte, enReposo, inclinacionObjetivo } from "./lib/resorte";
 
 /** Imágenes del cursor (en `public/cursores/`) y su punto activo "x y", en píxeles de la imagen. */
 const CURSORES = {
@@ -11,13 +12,8 @@ const CURSORES = {
 /** Segundos de retraso de la punta respecto del mouse (casi pegada). */
 const RETRASO = 0.02;
 
-/** Inclinación máxima aproximada del cuerpo, en grados, y velocidad (px/s) con la que casi se alcanza. */
-const INCLINACION = 20;
-const VELOCIDAD_TOPE = 800;
-
-/** Resorte del péndulo: frecuencia de ~3,5 oscilaciones por segundo y rebote suave al frenar. */
-const RIGIDEZ = 484;
-const AMORTIGUACION = 15;
+/** Distancia (px) a la que la punta se considera ya sobre el mouse. */
+const UMBRAL_DISTANCIA = 0.1;
 
 const CLICKEABLE = "a, button, select, summary, [role='button']";
 
@@ -47,8 +43,7 @@ export default function CursorSuave() {
     let cuadro = 0;
     let anterior = 0;
     let velocidad = 0;
-    let angulo = 0;
-    let velocidadAngular = 0;
+    let pendulo = { angulo: 0, velocidadAngular: 0 };
 
     Object.values(CURSORES).forEach(({ src }) => (new Image().src = src));
 
@@ -60,7 +55,7 @@ export default function CursorSuave() {
 
     const dibujar = () => {
       const { x, y } = CURSORES[nombre];
-      img.style.transform = `translate3d(${actual.x - x}px, ${actual.y - y}px, 0) rotate(${angulo}deg)`;
+      img.style.transform = `translate3d(${actual.x - x}px, ${actual.y - y}px, 0) rotate(${pendulo.angulo}deg)`;
     };
 
     const avanzar = (ahora) => {
@@ -73,18 +68,12 @@ export default function CursorSuave() {
       actual.y += (destino.y - actual.y) * paso;
       if (segundos > 0) velocidad = (actual.x - xPrevia) / segundos;
 
-      // Moverse a la derecha deja el cuerpo atrás: inclina en el sentido de las agujas del reloj.
-      const objetivo = INCLINACION * Math.tanh(velocidad / VELOCIDAD_TOPE);
-      const pasos = Math.max(1, Math.ceil(segundos / 0.008));
-      const h = segundos / pasos;
-      for (let i = 0; i < pasos; i++) {
-        velocidadAngular += (RIGIDEZ * (objetivo - angulo) - AMORTIGUACION * velocidadAngular) * h;
-        angulo += velocidadAngular * h;
-      }
+      const objetivo = inclinacionObjetivo(velocidad);
+      pendulo = avanzarResorte(pendulo, objetivo, segundos);
       dibujar();
 
       const falta = Math.hypot(destino.x - actual.x, destino.y - actual.y);
-      const sigue = falta > 0.1 || Math.abs(objetivo) > 0.05 || Math.abs(angulo) > 0.05 || Math.abs(velocidadAngular) > 0.5;
+      const sigue = falta > UMBRAL_DISTANCIA || !enReposo(pendulo, objetivo);
       cuadro = sigue ? requestAnimationFrame(avanzar) : 0;
     };
 

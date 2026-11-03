@@ -6,7 +6,7 @@ import { eliminarCafe } from "./actions";
 
 /**
  * Botón "Eliminar" que se acciona manteniéndolo apretado: mientras se aprieta se va
- * llenando de izquierda a derecha (animación `llenando`, 0,5 s) y al completarse borra el café.
+ * llenando de izquierda a derecha (animación `llenando` de `globals.css`, que define cuánto tarda) y al completarse borra el café.
  * Soltarlo antes, sacar el puntero o perder el foco cancela. También funciona con Enter o Espacio.
  *
  * @param {{id: string}} props Id del café a borrar.
@@ -17,12 +17,20 @@ export default function BotonEliminar({ id }) {
   const [estado, accion, pendiente] = useActionState(eliminarCafe.bind(null, id), null);
   const formulario = useRef(null);
 
-  const empezar = () => !pendiente && setApretando(true);
+  const empezar = () => {
+    if (!pendiente) setApretando(true);
+  };
   const cancelar = () => setApretando(false);
-  const alTeclear = (apretar) => (evento) => {
-    if (evento.key !== "Enter" && evento.key !== " ") return;
+  const esTeclaDeAccion = (evento) => evento.key === "Enter" || evento.key === " ";
+  const alApretarTecla = (evento) => {
+    if (!esTeclaDeAccion(evento)) return;
     evento.preventDefault();
-    if (!evento.repeat) apretar ? empezar() : cancelar();
+    if (!evento.repeat) empezar();
+  };
+  const alSoltarTecla = (evento) => {
+    if (!esTeclaDeAccion(evento)) return;
+    evento.preventDefault();
+    cancelar();
   };
 
   return (
@@ -34,8 +42,8 @@ export default function BotonEliminar({ id }) {
         onPointerUp={cancelar}
         onPointerLeave={cancelar}
         onPointerCancel={cancelar}
-        onKeyDown={alTeclear(true)}
-        onKeyUp={alTeclear(false)}
+        onKeyDown={alApretarTecla}
+        onKeyUp={alSoltarTecla}
         onBlur={cancelar}
         onContextMenu={(evento) => evento.preventDefault()}
         className="boton relative inline-flex touch-none select-none items-center gap-2 overflow-hidden text-red-400"
@@ -52,7 +60,7 @@ export default function BotonEliminar({ id }) {
           Eliminar
         </span>
       </button>
-      {estado?.error && <p className="text-sm text-red-400">{estado.error}</p>}
+      {estado?.errores && <p className="text-sm text-red-400">{estado.errores[0]}</p>}
     </form>
   );
 }

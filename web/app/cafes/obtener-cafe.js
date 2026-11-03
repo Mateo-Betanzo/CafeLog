@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { apiFetch } from "../lib/api";
+import { rutaCafe } from "../lib/ruta-cafe";
 
 /**
  * Pide a la API el detalle de un café.
@@ -11,7 +12,7 @@ import { apiFetch } from "../lib/api";
 export async function obtenerCafe(id) {
   let res;
   try {
-    res = await apiFetch(`/cafes/${id}`);
+    res = await apiFetch(rutaCafe(id));
   } catch {
     return null;
   }

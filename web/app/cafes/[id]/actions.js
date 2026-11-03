@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { apiFetch } from "../../lib/api";
 import { enviarCafe } from "../../lib/enviar-cafe";
+import { rutaCafe } from "../../lib/ruta-cafe";
 
 /**
  * Server Action: guarda los cambios de un café y vuelve a su detalle.
@@ -14,10 +15,10 @@ import { enviarCafe } from "../../lib/enviar-cafe";
  * @returns {Promise<{errores: string[]}>} Mensajes de error si la API rechaza los datos.
  */
 export async function editarCafe(id, estado, formData) {
-  const error = await enviarCafe(`/cafes/${encodeURIComponent(id)}`, "PUT", formData);
-  if (error) return error;
+  const resultado = await enviarCafe(rutaCafe(id), "PUT", formData);
+  if (resultado) return resultado;
 
-  redirect(`/cafes/${encodeURIComponent(id)}`);
+  redirect(rutaCafe(id));
 }
 
 /**
@@ -25,16 +26,16 @@ export async function editarCafe(id, estado, formData) {
  * Se usa con `eliminarCafe.bind(null, id)`.
  *
  * @param {string} id Id del café.
- * @returns {Promise<{error: string}>} El mensaje, si no se pudo borrar.
+ * @returns {Promise<{errores: string[]}>} El mensaje de error, si no se pudo borrar.
  */
 export async function eliminarCafe(id) {
   let res;
   try {
-    res = await apiFetch(`/cafes/${encodeURIComponent(id)}`, { method: "DELETE" });
+    res = await apiFetch(rutaCafe(id), { method: "DELETE" });
   } catch {
-    return { error: "No se pudo conectar con la API" };
+    return { errores: ["No se pudo conectar con la API"] };
   }
-  if (!res.ok && res.status !== 404) return { error: "No se pudo eliminar el café" };
+  if (!res.ok && res.status !== 404) return { errores: ["No se pudo eliminar el café"] };
 
   redirect("/cafes");
 }

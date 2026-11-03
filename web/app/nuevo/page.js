@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Encabezado from "../componentes/encabezado";
 import { apiGet } from "../lib/api";
 import { crearCafe } from "./actions";
-import Formulario from "./formulario";
+import Formulario from "../componentes/formulario-cafe";
 
 /**
  * Trae de la API los tipos de café y arma el formulario (Server Component).
