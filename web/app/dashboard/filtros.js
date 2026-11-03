@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-
-/** Periodos del filtro; `valor` es el que entiende la API. */
-const PERIODOS = [
-  { valor: "semana", nombre: "Semana" },
-  { valor: "mes", nombre: "Mes" },
-  { valor: "anio", nombre: "Año" },
-];
+import { PERIODOS } from "./periodos";
 
 /**
  * Pestañas para elegir el periodo del dashboard (Client Component).
@@ -21,7 +15,7 @@ export default function Filtros() {
 
   return (
     <nav className="inline-flex gap-1 rounded-full border border-borde bg-black p-1 text-sm">
-      {PERIODOS.map(({ valor, nombre }) => (
+      {Object.entries(PERIODOS).map(([valor, { nombre }]) => (
         <Link
           key={valor}
           href={`/dashboard?periodo=${valor}`}

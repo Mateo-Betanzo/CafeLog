@@ -1,8 +1,6 @@
 import { apiGet } from "../lib/api";
 import Grafico from "./grafico";
-
-/** Periodos que acepta la API; cualquier otro valor usa la semana. */
-const PERIODOS = ["semana", "mes", "anio"];
+import { periodoValido } from "./periodos";
 
 /**
  * Las tres tarjetas del dashboard: café, leche y azúcar (Server Component).
@@ -13,7 +11,7 @@ const PERIODOS = ["semana", "mes", "anio"];
  */
 export default async function Graficos({ searchParams }) {
   const { periodo: pedido } = await searchParams;
-  const periodo = PERIODOS.includes(pedido) ? pedido : "semana";
+  const periodo = periodoValido(pedido);
   const barras = (await apiGet(`/cafes/resumen?periodo=${periodo}`))?.barras;
 
   if (!barras) {

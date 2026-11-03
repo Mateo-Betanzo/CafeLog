@@ -3,7 +3,7 @@ import Tarjeta from "../componentes/tarjeta";
 import { hora } from "../lib/fechas";
 
 /**
- * Fila de la lista de cafés: tipo, hora y cantidades, con link al detalle.
+ * Fila de la lista de cafés: tipo y hora, con link al detalle.
  * El día va en el título del grupo (ver `ListaInfinita`).
  *
  * @param {{cafe: {id: number, tipo: string, created_at: string, cafe_ml: number,

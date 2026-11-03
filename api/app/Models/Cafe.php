@@ -41,6 +41,22 @@ class Cafe extends Model
     ];
 
     /**
+     * Guarda un café calculando sus ml (según el tipo) y sus gramos de azúcar.
+     *
+     * @param  array{tipo: string, cucharaditas: int, nota?: string|null}  $datos  Ya validados.
+     */
+    public static function registrar(array $datos): static
+    {
+        [$cafeMl, $lecheMl] = static::TIPOS[$datos['tipo']];
+
+        return static::create($datos + [
+            'cafe_ml' => $cafeMl,
+            'leche_ml' => $lecheMl,
+            'azucar_g' => $datos['cucharaditas'] * static::GRAMOS_POR_CUCHARADITA,
+        ]);
+    }
+
+    /**
      * Suma el café, la leche y el azúcar de una colección de cafés.
      *
      * @param  Collection<int, Cafe>  $cafes

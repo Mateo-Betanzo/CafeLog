@@ -80,14 +80,6 @@ class CafeController extends Controller
             'nota' => 'nullable|string|max:1000',
         ]);
 
-        [$cafeMl, $lecheMl] = Cafe::TIPOS[$datos['tipo']];
-
-        $cafe = Cafe::create($datos + [
-            'cafe_ml' => $cafeMl,
-            'leche_ml' => $lecheMl,
-            'azucar_g' => $datos['cucharaditas'] * Cafe::GRAMOS_POR_CUCHARADITA,
-        ]);
-
-        return response()->json($cafe, 201);
+        return response()->json(Cafe::registrar($datos), 201);
     }
 }

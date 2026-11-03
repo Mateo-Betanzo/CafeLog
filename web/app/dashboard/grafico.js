@@ -1,40 +1,5 @@
 import Tarjeta from "../componentes/tarjeta";
-
-/**
- * Etiqueta que va debajo de una barra: inicial del día (semana), número del
- * día cada 5 barras (mes) o inicial del mes (año).
- *
- * @param {string} fecha `YYYY-MM-DD` o `YYYY-MM` (año).
- * @param {string} periodo `semana`, `mes` o `anio`.
- * @returns {string}
- */
-function etiqueta(fecha, periodo) {
-  const dia = Number(fecha.slice(8, 10));
-  if (periodo === "mes") return dia === 1 || dia % 5 === 0 ? String(dia) : "";
-  return new Date(fecha).toLocaleDateString("es-AR", {
-    [periodo === "anio" ? "month" : "weekday"]: "narrow",
-    timeZone: "UTC",
-  });
-}
-
-/**
- * Promedio por día (por mes en el año) de las barras que ya pasaron,
- * con un decimal. Los días futuros no cuentan.
- *
- * @param {object[]} barras
- * @param {string} campo
- * @param {string} periodo
- * @returns {number}
- */
-function promedio(barras, campo, periodo) {
-  const hoy = new Date().toLocaleDateString("sv-SE", {
-    timeZone: "America/Argentina/Buenos_Aires",
-  });
-  const limite = periodo === "anio" ? hoy.slice(0, 7) : hoy;
-  const pasadas = barras.filter((b) => b.fecha <= limite);
-  const suma = pasadas.reduce((s, b) => s + b[campo], 0);
-  return Math.round((suma / Math.max(pasadas.length, 1)) * 10) / 10;
-}
+import { PERIODOS, promedio } from "./periodos";
 
 /**
  * Tarjeta con el total, el promedio y las barras de una medida.
@@ -47,7 +12,7 @@ function promedio(barras, campo, periodo) {
 export default function Grafico({ titulo, unidad, campo, barras, periodo }) {
   const total = barras.reduce((suma, b) => suma + b[campo], 0);
   const maximo = Math.max(...barras.map((b) => b[campo]), 1);
-  const gap = periodo === "mes" ? "gap-0.5" : "gap-2";
+  const { gap, porCada, etiqueta } = PERIODOS[periodo];
 
   return (
     <Tarjeta className="min-h-80">
@@ -57,7 +22,7 @@ export default function Grafico({ titulo, unidad, campo, barras, periodo }) {
         <span className="ml-2 text-base text-zinc-400">{unidad}</span>
       </p>
       <p className="mt-1 text-sm text-zinc-400">
-        Promedio {promedio(barras, campo, periodo)} {unidad} por {periodo === "anio" ? "mes" : "día"}
+        Promedio {promedio(barras, campo, periodo)} {unidad} por {porCada}
       </p>
 
       <div className="mt-6 flex gap-3">
@@ -88,7 +53,7 @@ export default function Grafico({ titulo, unidad, campo, barras, periodo }) {
           <div className={`mt-2 flex ${gap}`}>
             {barras.map((d) => (
               <span key={d.fecha} className="flex-1 text-center text-[13px] text-zinc-400">
-                {etiqueta(d.fecha, periodo)}
+                {etiqueta(d.fecha)}
               </span>
             ))}
           </div>

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Tarjeta from "../../componentes/tarjeta";
 import Encabezado from "../../componentes/encabezado";
+import { apiFetch } from "../../lib/api";
 import { fechaCorta } from "../../lib/fechas";
 
 /**
@@ -14,10 +15,7 @@ import { fechaCorta } from "../../lib/fechas";
 async function obtenerCafe(id) {
   let res;
   try {
-    res = await fetch(`${process.env.API_URL}/api/cafes/${id}`, {
-      cache: "no-store",
-      headers: { Accept: "application/json" },
-    });
+    res = await apiFetch(`/cafes/${id}`);
   } catch {
     return null;
   }
