@@ -3,8 +3,8 @@
 Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 líneas.** Si se llena, resumir y borrar lo viejo.
 
 ## Estado actual
-- Feature en curso: ninguna (tipos desde la API hecho y verificado, **sin commitear: esperando el OK del usuario**)
-- Última terminada: tipos de café desde la API (pendiente de commit). Antes: refactor de mantenimiento (`bbf6b2e`), diseño (`c2fe3fd`), encabezado con flecha (`4ba9ed8`)
+- Feature en curso: ninguna (limpieza del scaffold hecha y verificada, **sin commitear: esperando el OK del usuario**)
+- Última terminada: limpieza del scaffold de `api/` (pendiente de commit). Antes: tipos desde la API (`d17113c`), refactor (`bbf6b2e`), refactor de mantenimiento (`bbf6b2e`), diseño (`c2fe3fd`), encabezado con flecha (`4ba9ed8`)
 - Próximo paso: elegir una feature de "Features pendientes" y presentar el plan
 
 ## Features pendientes
@@ -27,6 +27,7 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Lista por día (2026-11-02): `/cafes` muestra un título por día (Hoy, Ayer, "Lunes 26 de octubre", con año si no es el actual) y debajo sus tarjetas con solo la hora en 24 h (todo lo de fechas vive en `lib/fechas.js`: `fechaCorta`, `fechaLarga`, `hora`, `dia`, `tituloDia`, `agruparPorDia`; 24 h). Días en horario de Buenos Aires. Tests con `node --test app/lib/fechas.test.js` (11) (runner de Node, sin librerías; avisa por el tipo de módulo, es inofensivo).
 - Diseño (2026-11-02): botón = clase `boton` en `globals.css` (`@utility`, pastilla negra, borde `white/25`); `Tarjeta` `rounded-lg p-7`, campos `rounded-lg`, filtros en pastilla (activa gris claro). Gráficos del dashboard (`grafico.js`, solo CSS, sin Chart.js aunque el usuario lo permitió): barras `rounded-t` sobre 3 guías tenues con escala 0/mitad/máx, la más alta en naranja pleno y el resto al 50 %, tooltip con fecha y valor al pasar el mouse, promedio por día (por mes en el año) sin contar días futuros.
 - Tipos (2026-11-03): `GET /api/cafes/tipos` → `{tipos, max_cucharaditas}` (`Cafe::TIPOS`, `Cafe::MAX_CUCHARADITAS`, también usada en la validación de `store`). `/nuevo` es Server Component con `<Suspense>`: trae los tipos y se los pasa a `Formulario` por props; sin API muestra error, sin lista de respaldo (decisión del usuario).
+- Limpieza (2026-11-03): `api/` es solo API: sin `routes/web.php` (queda `/up`), vistas, vite/npm, `User`, `UserFactory` ni migraciones de users/cache/jobs; el seeder está vacío. Las tablas viejas (users, sessions, cache, jobs) siguen en `database.sqlite` ya migrada, pero una base nueva solo crea `cafes`. `migrate:rollback` de esas migraciones borradas daría error. `.env.example` sigue con sesión/caché/cola en `database` (inofensivo).
 - La web usa `API_URL` (`web/.env.local`, no se commitea).
 
 ## Errores y soluciones

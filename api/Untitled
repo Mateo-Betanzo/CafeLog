@@ -1,0 +1,3 @@
+mo que usa el formulario. Agregar los ml por tipo sería anticiparse a algo que hoy nadie pide.
+2. Si la API falla en /nuevo: ¿mensaje de error sin formulario (recomendado) o una lista de respaldo en la web? La lista de respaldo es justo la duplicación que queremos sacar.
+3. README: ¿sumo la fila del endpoint a la tabla de pruebas manuales? AGENT.md lo pide para endpoints nuevos, así que lo hago salvo que me digas lo contrario.
