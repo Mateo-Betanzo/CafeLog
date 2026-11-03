@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 
 /** Imágenes del cursor (en `public/cursores/`) y su punto activo "x y", en píxeles de la imagen. */
 const CURSORES = {
-  flecha: { src: "/cursores/flecha.png", x: 1, y: 0 },
-  mano: { src: "/cursores/mano.png", x: 9, y: 0 },
+  flecha: { src: "/cursores/flecha.png", x: 0, y: 0 },
+  mano: { src: "/cursores/mano.png", x: 14, y: 1 },
 };
 
 /** Segundos de retraso de la punta respecto del mouse (casi pegada). */
