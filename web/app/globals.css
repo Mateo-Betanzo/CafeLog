@@ -7,9 +7,35 @@
   --color-acento: #995d2d;
 }
 
+/*
+ * Cursores: flecha en toda la página y mano en lo que se puede apretar. Para cambiarlos,
+ * reemplazá los PNG de public/cursores/ (o el punto activo "x y", en píxeles de la imagen).
+ */
+:root {
+  --cursor-flecha: url(/cursores/flecha.png) 1 0, default;
+  --cursor-mano: url(/cursores/mano.png) 9 0, pointer;
+}
+
+html {
+  cursor: var(--cursor-flecha);
+}
+
+a,
+button,
+select,
+summary,
+[role="button"] {
+  cursor: var(--cursor-mano);
+}
+
+input,
+textarea {
+  cursor: text;
+}
+
 /* Botón principal: pastilla negra con borde blanco tenue. */
 @utility boton {
-  @apply rounded-full border border-white/25 bg-black px-6 py-3 font-medium text-white hover:bg-zinc-900 disabled:opacity-50 cursor-pointer;
+  @apply rounded-full border border-white/25 bg-black px-6 py-3 font-medium text-white hover:bg-zinc-900 disabled:opacity-50;
 }
 
 /* Relleno del botón Eliminar: se completa en 0,5 s a velocidad constante. */
