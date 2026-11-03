@@ -86,27 +86,27 @@ Prueba: abrir `/dashboard`, recargar, poner la red en Offline (DevTools) y recar
 
 ## Tabla de pruebas
 
-Pruebas manuales de la API con Thunder Client. Se completa a medida que se implementa cada endpoint.
+Pruebas manuales de la API (2026-11-03), hechas con `curl` sobre una base de datos temporal en lugar de Thunder Client. Se completa a medida que se implementa cada endpoint.
 
 | Método | Ruta | Caso | Esperado | Resultado |
 |--------|------|------|----------|-----------|
-| POST | /api/cafes | latte, 2 cucharaditas | 201, café 30 ml / leche 150 ml / azúcar 8 g | |
-| POST | /api/cafes | espresso sin nota | 201, leche 0 ml | |
-| POST | /api/cafes | tipo inexistente o cucharaditas > 10 | 422 | |
-| GET | /api/cafes | sin cafés | 200, `data` vacío | |
-| GET | /api/cafes | 3 cafés con distinta fecha | 200, del más nuevo al más viejo | |
-| GET | /api/cafes?page=2 | 12 cafés | 200, 10 en la primera página y 2 en la segunda | |
-| GET | /api/cafes/1 | café existente | 200, con tipo, ml, gramos, nota y fecha | |
-| GET | /api/cafes/999 | id inexistente | 404 | |
-| GET | /api/cafes/resumen | sin `periodo` | 200, `barras` de la semana lunes a domingo | |
-| GET | /api/cafes/resumen?periodo=mes | mes actual | 200, una barra por día del mes | |
-| GET | /api/cafes/resumen?periodo=anio | año actual | 200, 12 barras (`YYYY-MM`) | |
-| GET | /api/cafes/resumen?periodo=siglo | periodo inválido | 422 | |
-| GET | /api/cafes/calor | sin cafés | 200, `dias` con 365 días en 0 (del más viejo a hoy) | |
-| GET | /api/cafes/calor | 2 cafés hoy y 1 de hace más de 365 días | 200, hoy con total 2; el viejo no aparece | |
-| GET | /api/cafes/tipos | — | 200, `tipos` (espresso, americano, cortado, latte, capuchino) y `max_cucharaditas` 10 | |
-| GET | /api/cafes/hoy | sin cafés cargados | 200, todo en 0 | |
-| GET | /api/cafes/hoy | 2 cafés de hoy y 1 de ayer | 200, total 2 y sumas solo de hoy | |
+| POST | /api/cafes | latte, 2 cucharaditas | 201, café 30 ml / leche 150 ml / azúcar 8 g | OK |
+| POST | /api/cafes | espresso sin nota | 201, leche 0 ml | OK |
+| POST | /api/cafes | tipo inexistente o cucharaditas > 10 | 422 | OK |
+| GET | /api/cafes | sin cafés | 200, `data` vacío | OK |
+| GET | /api/cafes | 3 cafés con distinta fecha | 200, del más nuevo al más viejo | OK |
+| GET | /api/cafes?page=2 | 12 cafés | 200, 10 en la primera página y 2 en la segunda | OK |
+| GET | /api/cafes/1 | café existente | 200, con tipo, ml, gramos, nota y fecha | OK |
+| GET | /api/cafes/999 | id inexistente | 404 | OK |
+| GET | /api/cafes/resumen | sin `periodo` | 200, `barras` de la semana lunes a domingo | OK |
+| GET | /api/cafes/resumen?periodo=mes | mes actual | 200, una barra por día del mes | OK |
+| GET | /api/cafes/resumen?periodo=anio | año actual | 200, 12 barras (`YYYY-MM`) | OK |
+| GET | /api/cafes/resumen?periodo=siglo | periodo inválido | 422 | OK |
+| GET | /api/cafes/calor | sin cafés | 200, `dias` con 365 días en 0 (del más viejo a hoy) | OK |
+| GET | /api/cafes/calor | 2 cafés hoy y 1 de hace más de 365 días | 200, hoy con total 2; el viejo no aparece | OK |
+| GET | /api/cafes/tipos | — | 200, `tipos` (espresso, americano, cortado, latte, capuchino) y `max_cucharaditas` 10 | OK |
+| GET | /api/cafes/hoy | sin cafés cargados | 200, todo en 0 | OK |
+| GET | /api/cafes/hoy | 2 cafés de hoy y 1 de ayer | 200, total 2 y sumas solo de hoy | OK |
 
 ## Informe
 

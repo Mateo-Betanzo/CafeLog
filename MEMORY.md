@@ -5,13 +5,11 @@ Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 lí
 ## Estado actual
 - Feature en curso: ninguna
 - Última terminada: nits de la revisión de clean-code-guard (último commit). Antes: limpieza del scaffold (`11d0e1d`), tipos desde la API (`d17113c`), refactor de mantenimiento (`bbf6b2e`), diseño (`c2fe3fd`)
-- Próximo paso: completar el Informe del `README.md` y la columna Resultado de la tabla de pruebas (pruebas manuales del usuario con Thunder Client)
+- Próximo paso: completar el Informe del `README.md`
 
 ## Features pendientes
 Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una línea).
 - Informe final del `README.md` (decisiones, problemas, aprendizajes): lo escribe el usuario o se arma con él
-- Columna "Resultado" de la tabla de pruebas del `README.md`: la completa el usuario con Thunder Client
-- Íconos de la PWA (`web/public/icons/`) son provisorios: el usuario los cambiará
 
 ## Decisiones
 - Stack: Laravel en `api/` (SQLite), Next.js JS/App Router en `web/` con Tailwind (pedido del usuario). Rutas API a mano, sin Sanctum.
@@ -23,7 +21,7 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Refactor 2026-11-01: la lógica de datos vive en el modelo (`Cafe::totales/deHoy/porPeriodo`); el controlador solo valida y responde.
 - Web: acceso a la API en `web/app/lib/api.js` (`apiFetch`, `apiGet`, sin caché). Dashboard dividido en `page.js`, `graficos.js`, `grafico.js`, `filtros.js`; inicio en `page.js` + `resumen-hoy.js`. Periodos del dashboard en una sola tabla `dashboard/periodos.js` (`PERIODOS`, `periodoValido`, `promedio`; la usan `grafico`, `filtros` y `graficos`), con tests en `periodos.test.js` (8). `cafes/[id]/page.js` ya usa `apiFetch`. La conversión tipo/cucharaditas a ml/gramos vive en `Cafe::registrar` (el controlador solo valida y responde).
 - Componentes compartidos (2026-11-02): `app/componentes/tarjeta.js` (`Tarjeta`, prop `as`) y `encabezado.js` (`Encabezado`: flecha a `/` + `<h1>` en la misma línea, solo ícono; reemplazó a `Volver`); `app/lib/formato.js` (solo `cafes(n)` → "café"/"cafés"). Mapa de calor dividido en `calor.js` + `bloque-mes.js` (`BloqueMes`; `NIVELES`, `nivel` y `colorNivel` viven en `niveles.js`, con `niveles.test.js` (5)). Verificado con capturas antes/después: idénticas.
-- PWA (2026-11-02): `web/public/manifest.json`, `sw.js` (network-first para todo GET del mismo origen, POST directo a la red, caché `cafelog-v1`), `offline.html` e íconos generados con Python en `public/icons/` (provisorios; el usuario los cambiará). El navegador no llama a la API (lo hace el servidor de Next), así que se cachean las páginas que ya traen los datos. Se registra solo en producción (`registrar-sw.js`). Sin librerías ni tests; verificado en el navegador con red Offline.
+- PWA (2026-11-02): `web/public/manifest.json`, `sw.js` (network-first para todo GET del mismo origen, POST directo a la red, caché `cafelog-v1`), `offline.html` e íconos generados con Python en `public/icons/` (el usuario decidió dejar estos). El navegador no llama a la API (lo hace el servidor de Next), así que se cachean las páginas que ya traen los datos. Se registra solo en producción (`registrar-sw.js`). Sin librerías ni tests; verificado en el navegador con red Offline.
 - Lista (2026-11-02): `GET /api/cafes` pagina de a 10 (más nuevo primero). Web `/cafes`: la primera tanda la trae el servidor y `lista-infinita.js` (Client Component, IntersectionObserver) pide las siguientes con la Server Action `cafes/actions.js` (`cargarMas`), porque el navegador no llama a la API. Sin repetidos por id. Refactor: hook genérico `lib/use-scroll-infinito.js` (`cargarMas` devuelve `{items}`; el pie de la lista es `Pie` en `lista-infinita.js`), `cafes/fila-cafe.js` y `fechaCorta` en `lib/fechas.js` (también la usa `cafes/[id]/page.js`); capturas antes/después idénticas. Sin conexión no carga más tandas (las actions no se cachean).
 - Navegación (2026-11-02): `componentes/navegacion.js`, cápsula fija abajo a la izquierda (en <768 px, horizontal abajo al centro) con Inicio, Mis cafés, Dashboard y Nuevo café; activo en blanco, resto apagado, `aria-current`. Va en `layout.js` dentro de `<Suspense>` (por `usePathname` con `cacheComponents`). Íconos: SVG de `web/public/svg/` (home-simple, coffee-cup, view-grid, plus) en la lista `ENLACES`; el componente `componentes/icono.js` los dibuja como máscara CSS con `currentColor` (un `<img>` no hereda el color). `Encabezado` usa `nav-arrow-left`. Se quitaron los botones "Mis cafés" y "Dashboard" del inicio.
 - Lista por día (2026-11-02): `/cafes` muestra un título por día (Hoy, Ayer, "Lunes 26 de octubre", con año si no es el actual) y debajo sus tarjetas con solo la hora en 24 h (todo lo de fechas vive en `lib/fechas.js`: `fechaCorta`, `fechaLarga`, `hora`, `dia`, `tituloDia`, `agruparPorDia`; 24 h). Días en horario de Buenos Aires. Tests con `node --test app/lib/fechas.test.js` (11) (runner de Node, sin librerías; avisa por el tipo de módulo, es inofensivo).
@@ -33,6 +31,7 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - La web usa `API_URL` (`web/.env.local`, no se commitea).
 
 ## Errores y soluciones
+- Pruebas manuales de la API (2026-11-03): las 17 filas del README dan OK. Se hicieron con `curl` contra `cd api/public && DB_DATABASE=<tmp> php -S localhost:8100 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php` (ese sí respeta `DB_DATABASE`, a diferencia de `artisan serve`) y fechas pasadas insertadas por SQL, sin tocar la base de desarrollo.
 - Probar con `DB_DATABASE=otra.sqlite php artisan serve` NO cambia la base (serve no reenvía esa variable) y un POST de prueba cae en la base de desarrollo. Solución: no escribir datos al probar (solo GET) o borrar solo la fila propia.
 - Build de Next "uncached or runtime data during prerendering" (`cacheComponents: true` viene activo): el `fetch` va en un componente async dentro de `<Suspense>`.
 - Con `<Suspense>` la página de "no encontrado" sale con HTTP 200 (el streaming ya envió el status).
