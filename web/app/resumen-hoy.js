@@ -11,7 +11,7 @@ export default async function ResumenHoy() {
   const hoy = await apiGet("/cafes/hoy");
 
   return (
-    <Tarjeta className="mt-6">
+    <Tarjeta className="mt-6 min-h-56">
       <h2 className="text-sm text-zinc-400">Hoy</h2>
       {hoy ? (
         <>

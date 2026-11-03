@@ -39,7 +39,7 @@ export default function ListaInfinita({ inicial, ultimaPagina }) {
         {error ? (
           <>
             <p className="text-red-400">No se pudo cargar</p>
-            <button onClick={reintentar} className="mt-2 rounded-xl bg-acento px-4 py-2 font-medium text-black">
+            <button onClick={reintentar} className="boton mt-2">
               Reintentar
             </button>
           </>

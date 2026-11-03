@@ -20,13 +20,13 @@ export default function Filtros() {
   const activo = useSearchParams().get("periodo") ?? "semana";
 
   return (
-    <nav className="inline-flex gap-1 rounded-xl border border-borde bg-tarjeta p-1 text-sm">
+    <nav className="inline-flex gap-1 rounded-full border border-borde bg-black p-1 text-sm">
       {PERIODOS.map(({ valor, nombre }) => (
         <Link
           key={valor}
           href={`/dashboard?periodo=${valor}`}
-          className={`rounded-lg px-4 py-1.5 ${
-            activo === valor ? "bg-acento text-black" : "text-zinc-400"
+          className={`rounded-full px-4 py-2 ${
+            activo === valor ? "bg-white/10 text-white" : "text-zinc-400"
           }`}
         >
           {nombre}

@@ -8,7 +8,7 @@
 export default function Tarjeta({ as: Etiqueta = "section", className = "", ...props }) {
   return (
     <Etiqueta
-      className={`rounded-2xl border border-borde bg-tarjeta p-6 ${className}`}
+      className={`rounded border border-borde bg-tarjeta p-5 ${className}`}
       {...props}
     />
   );

@@ -4,7 +4,12 @@
   --color-fondo: #000;
   --color-tarjeta: #1c1c21;
   --color-borde: #2e2e35;
-  --color-acento: #d9772b;
+  --color-acento: #995d2d;
+}
+
+/* Botón principal: pastilla negra con borde blanco tenue. */
+@utility boton {
+  @apply rounded-full border border-white/25 bg-black px-6 py-3 font-medium text-white hover:bg-zinc-900 disabled:opacity-50 cursor-pointer;
 }
 
 body {

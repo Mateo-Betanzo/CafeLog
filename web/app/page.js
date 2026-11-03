@@ -21,7 +21,7 @@ export default function Home() {
       <div className="mt-6 flex gap-3">
         <Link
           href="/nuevo"
-          className="rounded-2xl bg-acento px-5 py-3 font-medium text-black"
+          className="boton"
         >
           Agregar café
         </Link>

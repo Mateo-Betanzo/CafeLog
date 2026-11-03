@@ -21,7 +21,7 @@ export default async function Graficos({ searchParams }) {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-2 md:grid-cols-3">
       <Grafico titulo="Café" unidad="ml" campo="cafe_ml" barras={barras} periodo={periodo} />
       <Grafico titulo="Leche" unidad="ml" campo="leche_ml" barras={barras} periodo={periodo} />
       <Grafico titulo="Azúcar" unidad="g" campo="azucar_g" barras={barras} periodo={periodo} />

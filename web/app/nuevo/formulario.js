@@ -7,7 +7,7 @@ import Tarjeta from "../componentes/tarjeta";
 /** Tipos de café disponibles; deben coincidir con los de la API. */
 const TIPOS = ["espresso", "americano", "cortado", "latte", "capuchino"];
 const campo =
-  "w-full rounded-xl border border-borde bg-fondo px-3 py-2 text-white";
+  "w-full rounded-lg border border-borde bg-fondo px-4 py-3 text-white";
 
 /**
  * Formulario de carga de un café (Client Component).
@@ -54,7 +54,7 @@ export default function Formulario() {
       )}
       <button
         disabled={pendiente}
-        className="rounded-xl bg-acento px-5 py-3 font-medium text-black disabled:opacity-50"
+        className="boton bg-white text-black hover:bg-zinc-200"
       >
         Guardar
       </button>

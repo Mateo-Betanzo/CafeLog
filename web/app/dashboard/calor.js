@@ -23,7 +23,7 @@ export default async function Calor() {
   const meses = Object.entries(Object.groupBy(dias, (d) => d.fecha.slice(0, 7)));
 
   return (
-    <Tarjeta className="mt-4">
+    <Tarjeta className="mt-2">
       <h2 className="text-sm text-zinc-400">
         {total} {cafes(total)} en el último año
       </h2>

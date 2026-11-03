@@ -13,14 +13,11 @@ import { hora } from "../lib/fechas";
 export default function FilaCafe({ cafe }) {
   return (
     <Link href={`/cafes/${cafe.id}`} className="block">
-      <Tarjeta className="flex items-center justify-between gap-4 !p-4">
+      <Tarjeta className="flex items-center justify-between gap-4 !p-5">
         <div>
           <p className="font-medium capitalize">{cafe.tipo}</p>
           <p className="text-sm text-zinc-400">{hora(cafe.created_at)}</p>
         </div>
-        <p className="text-right text-sm text-zinc-400">
-          {cafe.cafe_ml} ml café · {cafe.leche_ml} ml leche · {cafe.azucar_g} g azúcar
-        </p>
       </Tarjeta>
     </Link>
   );
