@@ -3,8 +3,8 @@
 Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 líneas.** Si se llena, resumir y borrar lo viejo.
 
 ## Estado actual
-- Feature en curso: ninguna (API completa + editar/eliminar en la web, hechos y verificados, **sin commitear: esperando el OK del usuario**)
-- Última terminada: API completa según el PDF y editar/eliminar desde la web (pendiente de commit). Antes: limpieza del scaffold (`11d0e1d`), tipos desde la API (`d17113c`), refactor de mantenimiento (`bbf6b2e`), diseño (`c2fe3fd`)
+- Feature en curso: ninguna (íconos y borrado manteniendo apretado hechos y verificados, **sin commitear: esperando el OK del usuario**)
+- Última terminada: íconos y borrado manteniendo apretado (pendiente de commit). Antes: limpieza del scaffold (`11d0e1d`), tipos desde la API (`d17113c`), refactor de mantenimiento (`bbf6b2e`), diseño (`c2fe3fd`)
 - Próximo paso: revisar el Informe del `README.md` (borrador escrito el 2026-11-03, sin commitear) y decidir qué puntos del PDF de arriba se hacen
 
 ## Features pendientes
@@ -12,6 +12,7 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Según el PDF del TP (entrega 13/11) falta: subir el repo a GitHub (sin `.env`, `vendor/`, `node_modules/`); opcional: repetir la tabla de pruebas con Thunder Client (hoy es con `curl`)
 
 ## Decisiones
+- Planes y respuestas: breves (pedido del usuario 2026-11-03). Plan = qué se hace, archivos, dudas (máx. 4, con la recomendada) y qué se actualiza; sin repetir lo que ya se sabe ni explicar de más.
 - Stack: Laravel en `api/` (SQLite), Next.js JS/App Router en `web/` con Tailwind (pedido del usuario). Rutas API a mano, sin Sanctum.
 - UI: diseño bento oscuro de `web/public/Front CoffeeLog.jpg` (tarjetas redondeadas, acento naranja, colores en `globals.css`).
 - Café sin tamaños: el tipo define los ml (`Cafe::TIPOS`: espresso 30/0, americano 30/0, cortado 30/30, latte 30/150, capuchino 30/120). Azúcar 4 g por cucharadita (máx. 10). Campos: tipo, cucharaditas, nota opcional (se quitó `lugar`).
@@ -29,11 +30,11 @@ Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una líne
 - Tipos (2026-11-03): `GET /api/cafes/tipos` → `{tipos, max_cucharaditas}` (`Cafe::TIPOS`, `Cafe::MAX_CUCHARADITAS`, también usada en la validación de `store`). `/nuevo` es Server Component con `<Suspense>`: trae los tipos y se los pasa a `Formulario` por props; sin API muestra error, sin lista de respaldo (decisión del usuario).
 - Limpieza (2026-11-03): `api/` es solo API: sin `routes/web.php` (queda `/up`), vistas, vite/npm, `User`, `UserFactory` ni migraciones de users/cache/jobs; el seeder está vacío. Las tablas viejas (users, sessions, cache, jobs) siguen en `database.sqlite` ya migrada, pero una base nueva solo crea `cafes`. `migrate:rollback` de esas migraciones borradas daría error. `.env.example` sigue con sesión/caché/cola en `database` (inofensivo).
 - API completa (2026-11-03): `apiResource` con las 5 acciones. `PUT`/`PATCH` validan igual que `POST` y reemplazan el café entero (sin `nota` se borra); `Cafe::actualizar` y `Cafe::registrar` comparten `conversiones()`. `DELETE` responde 200 `{mensaje}`. Seeder: 10 cafés de los últimos 14 días (fechas relativas a hoy; correr `db:seed` dos veces duplica). Mensajes en español: `api/lang/es/validation.php` (solo las reglas usadas) y `lang/es.json` (el "(y N errores más)"); `APP_LOCALE=es` por defecto en `config/app.php` y `.env.example`.
-- Editar/eliminar en la web (2026-11-03): el detalle `/cafes/[id]` tiene "Editar" (link a `/cafes/[id]/editar`, que reusa `nuevo/formulario.js` con `cafe` y `accion`) y `boton-eliminar.js` (confirmación en dos pasos). Server Actions en `cafes/[id]/actions.js` (`editarCafe` vuelve al detalle, `eliminarCafe` a `/cafes`; un 404 al borrar también vuelve); `lib/enviar-cafe.js` comparte el envío con `crearCafe`; `cafes/obtener-cafe.js` lo comparten detalle y edición. Verificado en Chrome headless (CDP) contra API y base temporales; no se pudo con el MCP (perfil ocupado). Next deja la página anterior oculta en el DOM tras redirigir: no es un error.
+- Editar/eliminar en la web (2026-11-03): el detalle `/cafes/[id]` tiene "Editar" (link a `/cafes/[id]/editar`, que reusa `nuevo/formulario.js` con `cafe` y `accion`) y `boton-eliminar.js` (se borra manteniendo apretado 0,5 s: animación `llenando` de `globals.css`, relleno rojo `bg-red-500/30` de izquierda a derecha; soltar, sacar el puntero o perder el foco cancela; también Enter/Espacio mantenido; sin confirmación aparte. Íconos `edit-pencil` y `trash` con `Icono`). Server Actions en `cafes/[id]/actions.js` (`editarCafe` vuelve al detalle, `eliminarCafe` a `/cafes`; un 404 al borrar también vuelve); `lib/enviar-cafe.js` comparte el envío con `crearCafe`; `cafes/obtener-cafe.js` lo comparten detalle y edición. Verificado en Chrome headless (CDP) contra API y base temporales; no se pudo con el MCP (perfil ocupado). Next deja la página anterior oculta en el DOM tras redirigir: no es un error.
 - La web usa `API_URL` (`web/.env.local`, no se commitea).
 
 ## Errores y soluciones
-- Pruebas manuales de la API (2026-11-03): las 17 filas del README dan OK. Se hicieron con `curl` contra `cd api/public && DB_DATABASE=<tmp> php -S localhost:8100 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php` (ese sí respeta `DB_DATABASE`, a diferencia de `artisan serve`) y fechas pasadas insertadas por SQL, sin tocar la base de desarrollo.
+- Pruebas manuales de la API (2026-11-03): todas las filas del README dan OK (el usuario las pasó en Thunder Client; yo las repetí con `curl` contra `cd api/public && DB_DATABASE=<tmp> php -S localhost:8100 ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php` (ese sí respeta `DB_DATABASE`, a diferencia de `artisan serve`) y fechas pasadas insertadas por SQL, sin tocar la base de desarrollo.
 - Probar con `DB_DATABASE=otra.sqlite php artisan serve` NO cambia la base (serve no reenvía esa variable) y un POST de prueba cae en la base de desarrollo. Solución: no escribir datos al probar (solo GET) o borrar solo la fila propia.
 - Build de Next "uncached or runtime data during prerendering" (`cacheComponents: true` viene activo): el `fetch` va en un componente async dentro de `<Suspense>`.
 - Con `<Suspense>` la página de "no encontrado" sale con HTTP 200 (el streaming ya envió el status).

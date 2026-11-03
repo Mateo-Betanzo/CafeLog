@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import Icono from "../../componentes/icono";
 import Tarjeta from "../../componentes/tarjeta";
 import Encabezado from "../../componentes/encabezado";
 import { fechaCorta } from "../../lib/fechas";
@@ -49,7 +50,8 @@ async function Detalle({ params }) {
         </p>
       )}
       <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-borde pt-4">
-        <Link href={`/cafes/${id}/editar`} className="boton">
+        <Link href={`/cafes/${id}/editar`} className="boton inline-flex items-center gap-2">
+          <Icono nombre="edit-pencil" className="h-5 w-5" />
           Editar
         </Link>
         <BotonEliminar id={id} />

@@ -12,6 +12,20 @@
   @apply rounded-full border border-white/25 bg-black px-6 py-3 font-medium text-white hover:bg-zinc-900 disabled:opacity-50 cursor-pointer;
 }
 
+/* Relleno del botón Eliminar: se completa en 0,5 s a velocidad constante. */
+@keyframes llenar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@utility llenando {
+  animation: llenar .5s linear forwards;
+}
+
 body {
   background: var(--color-fondo);
   color: #fff;
