@@ -3,13 +3,12 @@
 Bitácora del agente y único lugar con el estado del trabajo. **Máximo ~50 líneas.** Si se llena, resumir y borrar lo viejo.
 
 ## Estado actual
-- Feature en curso: ninguna (revisión clean-code-guard hecha, **sin commitear: esperando el OK del usuario**)
-- Última terminada: cursor con vida (`34567eb`, `073e1ff`). Antes: cursor personalizado (`f0f3fdc`), íconos y borrado manteniendo apretado (`ccfa79d`), limpieza del scaffold (`11d0e1d`), tipos desde la API (`d17113c`), refactor de mantenimiento (`bbf6b2e`), diseño (`c2fe3fd`)
-- Próximo paso: revisar el Informe del `README.md` (borrador escrito el 2026-11-03, sin commitear) y decidir qué puntos del PDF de arriba se hacen
+- Feature en curso: ninguna (revisión clean-code-guard hecha, commit `7939f10`)
+- Última terminada: revisión clean-code-guard (`7939f10`). Antes: cursor con vida (`34567eb`, `073e1ff`). Antes: cursor personalizado (`f0f3fdc`), íconos y borrado manteniendo apretado (`ccfa79d`), limpieza del scaffold (`11d0e1d`), tipos desde la API (`d17113c`), refactor de mantenimiento (`bbf6b2e`), diseño (`c2fe3fd`)
 
 ## Features pendientes
 Al terminar una, borrarla de acá. Si surge una idea nueva, agregarla (una línea).
-- Según el PDF del TP (entrega 13/11) falta: subir el repo a GitHub (sin `.env`, `vendor/`, `node_modules/`); opcional: repetir la tabla de pruebas con Thunder Client (hoy es con `curl`)
+- Ninguna. El usuario sube el repo a GitHub por su cuenta (decisión 2026-11-03); el Informe del `README.md` queda como está.
 
 ## Decisiones
 - Planes y respuestas: breves (pedido del usuario 2026-11-03). Plan = qué se hace, archivos, dudas (máx. 4, con la recomendada) y qué se actualiza; sin repetir lo que ya se sabe ni explicar de más.
