@@ -24,7 +24,7 @@ const CLICKEABLE = "a, button, select, summary, [role='button']";
 /**
  * Cursor propio con "vida": la punta sigue al mouse casi pegada y el cuerpo se balancea desde la
  * punta como un péndulo, en sentido contrario al movimiento, y rebota un poco al frenar.
- * Oculta el cursor del sistema (clase `cursor-suave` en `html`), muestra la mano sobre lo que se
+ * Oculta el cursor del sistema (regla de `globals.css`), muestra la mano sobre lo que se
  * puede apretar y deja el cursor del sistema en los campos de texto. No hace nada con pantalla
  * táctil ni si el sistema pide menos movimiento.
  *
@@ -51,7 +51,6 @@ export default function CursorSuave() {
     let velocidadAngular = 0;
 
     Object.values(CURSORES).forEach(({ src }) => (new Image().src = src));
-    html.classList.add("cursor-suave");
 
     const elegir = (siguiente) => {
       nombre = siguiente;
@@ -119,7 +118,6 @@ export default function CursorSuave() {
       document.removeEventListener("pointermove", alMoverse);
       html.removeEventListener("pointerleave", alSalir);
       cancelAnimationFrame(cuadro);
-      html.classList.remove("cursor-suave");
     };
   }, []);
 

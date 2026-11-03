@@ -7,13 +7,20 @@
   --color-acento: #995d2d;
 }
 
-/* Con el cursor propio activo (ver cursor-suave.js) se oculta el del sistema, salvo en los campos de texto. */
-html.cursor-suave * {
-  cursor: none !important;
-}
+/*
+ * Cursor propio (ver cursor-suave.js): se oculta el del sistema en toda la página, incluido el
+ * propio `html` (la franja bajo el contenido en páginas cortas) y desde el primer cuadro, salvo en
+ * los campos de texto. Las condiciones son las mismas con las que el componente se activa.
+ */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html,
+  html * {
+    cursor: none !important;
+  }
 
-html.cursor-suave :is(input, textarea) {
-  cursor: text !important;
+  html :is(input, textarea) {
+    cursor: text !important;
+  }
 }
 
 /* Botón principal: pastilla negra con borde blanco tenue. */
