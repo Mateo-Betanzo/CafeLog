@@ -45,6 +45,19 @@ class CafeController extends Controller
     }
 
     /**
+     * Tipos de café que acepta la API y máximo de cucharaditas, para armar el formulario.
+     *
+     * @return \Illuminate\Http\JsonResponse `{"tipos": [...], "max_cucharaditas": 10}` (200).
+     */
+    public function tipos()
+    {
+        return response()->json([
+            'tipos' => array_keys(Cafe::TIPOS),
+            'max_cucharaditas' => Cafe::MAX_CUCHARADITAS,
+        ]);
+    }
+
+    /**
      * Lista los cafés del más nuevo al más viejo, en tandas de 10 (`?page=`).
      * La web no muestra páginas: pide las tandas una tras otra con scroll infinito.
      *
@@ -76,7 +89,7 @@ class CafeController extends Controller
     {
         $datos = $request->validate([
             'tipo' => ['required', Rule::in(array_keys(Cafe::TIPOS))],
-            'cucharaditas' => 'required|integer|min:0|max:10',
+            'cucharaditas' => 'required|integer|min:0|max:'.Cafe::MAX_CUCHARADITAS,
             'nota' => 'nullable|string|max:1000',
         ]);
 

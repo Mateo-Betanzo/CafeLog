@@ -27,6 +27,9 @@ class Cafe extends Model
     /** @var int Gramos de azúcar que lleva una cucharadita. */
     public const GRAMOS_POR_CUCHARADITA = 4;
 
+    /** @var int Máximo de cucharaditas de azúcar por café. */
+    public const MAX_CUCHARADITAS = 10;
+
     /**
      * Equivalencia de cada tipo de café a mililitros.
      *

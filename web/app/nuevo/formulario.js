@@ -4,17 +4,16 @@ import { useActionState } from "react";
 import { crearCafe } from "./actions";
 import Tarjeta from "../componentes/tarjeta";
 
-/** Tipos de café disponibles; deben coincidir con los de la API. */
-const TIPOS = ["espresso", "americano", "cortado", "latte", "capuchino"];
 const campo =
   "w-full rounded-lg border border-borde bg-fondo px-4 py-3 text-white";
 
 /**
  * Formulario de carga de un café (Client Component).
  *
+ * @param {{tipos: string[], maxCucharaditas: number}} props Lo que acepta la API.
  * @returns {JSX.Element}
  */
-export default function Formulario() {
+export default function Formulario({ tipos, maxCucharaditas }) {
   const [estado, accion, pendiente] = useActionState(crearCafe, null);
 
   return (
@@ -22,7 +21,7 @@ export default function Formulario() {
       <label className="flex flex-col gap-1 text-sm text-zinc-400">
         Tipo
         <select name="tipo" required className={campo}>
-          {TIPOS.map((t) => (
+          {tipos.map((t) => (
             <option key={t} value={t}>
               {t}
             </option>
@@ -35,7 +34,7 @@ export default function Formulario() {
           name="cucharaditas"
           type="number"
           min="0"
-          max="10"
+          max={maxCucharaditas}
           defaultValue="0"
           required
           className={campo}

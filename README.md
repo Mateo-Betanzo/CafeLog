@@ -104,6 +104,7 @@ Pruebas manuales de la API con Thunder Client. Se completa a medida que se imple
 | GET | /api/cafes/resumen?periodo=siglo | periodo inválido | 422 | |
 | GET | /api/cafes/calor | sin cafés | 200, `dias` con 365 días en 0 (del más viejo a hoy) | |
 | GET | /api/cafes/calor | 2 cafés hoy y 1 de hace más de 365 días | 200, hoy con total 2; el viejo no aparece | |
+| GET | /api/cafes/tipos | — | 200, `tipos` (espresso, americano, cortado, latte, capuchino) y `max_cucharaditas` 10 | |
 | GET | /api/cafes/hoy | sin cafés cargados | 200, todo en 0 | |
 | GET | /api/cafes/hoy | 2 cafés de hoy y 1 de ayer | 200, total 2 y sumas solo de hoy | |
 
